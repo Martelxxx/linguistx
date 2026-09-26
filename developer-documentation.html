@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Linguist-X Passenger · Engineering Documentation v78</title>
+<style>
+:root{--ink:#1f3148;--muted:#687b92;--line:#dce5ee;--paper:#f7f9fc;--card:#fff;--blue:#168fca;--green:#79ad43;--warn:#9a6f13;--danger:#a4454e;--code:#132033;--shadow:0 14px 40px rgba(47,72,104,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}a{color:#147cac;text-decoration-thickness:1px;text-underline-offset:3px}code,kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}code{font-size:.92em;background:#edf3f8;padding:.12em .35em;border-radius:5px}pre{background:var(--code);color:#eef6ff;padding:16px 18px;border-radius:16px;overflow:auto;box-shadow:var(--shadow)}pre code{background:none;padding:0;color:inherit}.shell{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:24px 19px;border-right:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(18px)}.mark{font-weight:800;letter-spacing:-.035em;font-size:20px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#8393a6}.sidebar p{font-size:12px;color:var(--muted);margin:8px 0 18px}.toc a{display:block;padding:7px 9px;border-radius:9px;color:#536a83;text-decoration:none;font-size:12px}.toc a:hover{background:#edf4f9;color:#1b506f}.content{max-width:1180px;width:100%;padding:42px 46px 80px}.hero{padding:34px;border-radius:28px;background:linear-gradient(145deg,#fff,#f5f9fd);border:1px solid #fff;box-shadow:var(--shadow);margin-bottom:28px}.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.02;letter-spacing:-.06em;margin:8px 0 14px}.hero p{max-width:860px;color:var(--muted);font-size:16px}.badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;background:#eef7fb;color:#316c86;font-size:11px;font-weight:750}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card,section{background:var(--card);border:1px solid #e8eef4;border-radius:22px;box-shadow:0 8px 28px rgba(47,72,104,.045)}section{padding:28px 30px;margin:18px 0}.card{padding:18px 20px}.card h3{margin:0 0 7px}.card p{margin:0;color:var(--muted);font-size:13px}h2{font-size:27px;letter-spacing:-.04em;margin:0 0 14px}h3{font-size:18px;letter-spacing:-.025em;margin:24px 0 9px}h4{font-size:14px;margin:18px 0 7px}.lead{color:var(--muted);max-width:900px}.note,.warning,.critical{padding:14px 16px;border-radius:14px;margin:14px 0;font-size:13px}.note{background:#f0f8fb;border-left:4px solid var(--blue)}.warning{background:#fff8e8;border-left:4px solid #d09b2a}.critical{background:#fff1f2;border-left:4px solid var(--danger)}table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:12px;margin:13px 0 20px}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}th{background:#f3f7fa;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#60758c}tr:last-child td{border-bottom:0}.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0}.flow span{padding:9px 11px;border-radius:11px;background:#f2f6fa;border:1px solid #e2e9f0;font-size:12px;font-weight:700}.flow b{color:#9aa8b8}.status-ok{color:#477a2d}.status-open{color:#9a6f13}.status-boundary{color:#8c4d55}.pill{display:inline-block;padding:2px 7px;border-radius:999px;background:#eef2f7;font-size:10px;font-weight:750}.files td:first-child,.api td:first-child{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:nowrap}.small{font-size:12px;color:var(--muted)}.checklist li{margin:6px 0}.footer{font-size:11px;color:#8492a2;padding:24px 4px}.back{display:inline-block;margin-bottom:12px}@media(max-width:900px){.shell{display:block}.sidebar{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.toc{columns:2}.content{padding:26px 18px 60px}.grid{grid-template-columns:1fr}.hero,section{padding:22px}.files{font-size:11px;display:block;overflow:auto}}@media print{.sidebar{display:none}.shell{display:block}.content{max-width:none;padding:0}.hero,section{box-shadow:none;break-inside:avoid}a{color:inherit}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="eyebrow">Linguist-X / Internal</div>
+  <div class="mark">Passenger Engineering</div>
+  <p>Maintainer documentation for v78. Passenger/mobile scope only.</p>
+  <nav class="toc" aria-label="Documentation sections">
+    <a href="#purpose">1 · Purpose & invariants</a>
+    <a href="#quickstart">2 · Quick start</a>
+    <a href="#architecture">3 · Architecture</a>
+    <a href="#files">4 · File map</a>
+    <a href="#frontend">5 · Frontend model</a>
+    <a href="#backend">6 · Backend model</a>
+    <a href="#integration">7 · Translation integration</a>
+    <a href="#api">8 · Application APIs</a>
+    <a href="#security">9 · Security & privacy</a>
+    <a href="#state">10 · State & lifecycle</a>
+    <a href="#providers">11 · External providers</a>
+    <a href="#offline">12 · PWA / caching</a>
+    <a href="#accessibility">13 · Accessibility</a>
+    <a href="#testing">14 · Testing</a>
+    <a href="#tracker">15 · Checklist governance</a>
+    <a href="#deployment">16 · Deployment path</a>
+    <a href="#changes">17 · Safe change protocol</a>
+    <a href="#troubleshooting">18 · Troubleshooting</a>
+    <a href="#open">19 · Known open gates</a>
+  </nav>
+</aside>
+<main class="content">
+  <a class="back" href="/index.html">← Back to internal preview</a>
+  <header class="hero" id="purpose">
+    <span class="badge">v78 · Developer handoff + splash transition</span>
+    <h1>Linguist-X Passenger</h1>
+    <p>This page documents the complete passenger/mobile application as it exists in this release: visual invariants, state model, backend boundaries, APIs, guest authorization, local fixture, provider adapters, caching, tests, checklist governance, and the rules a developer must follow to continue the work without accidentally undoing the product experience built across more than 75 iterations.</p>
+    <div class="critical"><strong>Scope boundary:</strong> this documentation covers only the passenger application in this package. Fleet management, remote support, commissioning, management center, and evidence systems are separate Linguist-X workstreams.</div>
+  </header>
+
+  <section>
+    <h2>1. Product invariants</h2>
+    <p class="lead">These are deliberate product decisions, not incidental implementation details. A maintainer should preserve them unless the product owner explicitly authorizes a UX change.</p>
+    <div class="grid">
+      <div class="card"><h3>Passenger journey</h3><p>Welcome/language → flight discovery or scan → explicit flight confirmation → Live translation experience. The application is account-free.</p></div>
+      <div class="card"><h3>Visual language</h3><p>Centered identity, quiet information hierarchy, soft neumorphic/glass surfaces, living orb / bridge-X transition, restrained color, responsive phone frame, and reduced-motion support.</p></div>
+      <div class="card"><h3>Translation truthfulness</h3><p>Integration mode never substitutes demo announcements for unavailable live media. Fixture captions are visibly prefixed <strong>[TEST DATA]</strong>.</p></div>
+      <div class="card"><h3>Authorization boundary</h3><p>Public passenger navigation may continue when translation access is denied. Protected guest translation events must not.</p></div>
+      <div class="card"><h3>Privacy posture</h3><p>No passenger account. Provider credentials and upstream guest bearer tokens stay server-side. Camera/barcode content and translated content must not enter logs.</p></div>
+      <div class="card"><h3>Internal controls</h3><p>The checklist, fixture scenario selector, and Demo/Integration controls are desktop development chrome outside the phone. They are not passenger UI.</p></div>
+    </div>
+  </section>
+
+  <section id="quickstart">
+    <h2>2. Quick start</h2>
+    <h3>Recommended local development</h3>
+    <pre><code>python3 start.py
+# open http://127.0.0.1:8765/</code></pre>
+    <p><code>start.py</code> sets <code>LX_NO_SETUP=1</code> and <code>LX_ENABLE_FIXTURE=1</code>, then replaces itself with <code>run.py</code>. The local loopback fixture becomes available to the desktop Integration toggle. It is simulated contract data, not Wordly.</p>
+    <h3>Passenger-only surface</h3>
+    <pre><code>http://127.0.0.1:8765/passenger-only.html</code></pre>
+    <p>This removes the internal checklist and fixture controls. It is the closest browser representation of the passenger-facing surface in this package.</p>
+    <h3>Production-style ASGI transport</h3>
+    <pre><code>python3 -m pip install -r requirements-production.txt
+python3 start_asgi.py</code></pre>
+    <div class="warning"><strong>Do not confuse “production-style transport” with production certification.</strong> Live provider integration, actual infrastructure, capacity testing, deployment controls, and native/mobile acceptance remain separate gates.</div>
+  </section>
+
+  <section id="architecture">
+    <h2>3. Architecture at a glance</h2>
+    <div class="flow" aria-label="Architecture flow">
+      <span>Passenger HTML/CSS/JS</span><b>→</b><span>/api/* application boundary</span><b>→</b><span>run.py / passenger_asgi.py</span><b>→</b><span>Gateway + provider adapters</span><b>→</b><span>Approved external services</span>
+    </div>
+    <p>The browser intentionally speaks only to same-origin application APIs. It does not call the guest gateway with a service credential. <code>integration_bridge.py</code> translates the application’s guest-session operations into a small reviewed upstream contract. The browser receives an opaque <code>lx_guest</code> cookie handle; the corresponding upstream guest token remains server-side.</p>
+    <h3>Runtime roles</h3>
+    <table>
+      <tr><th>Runtime</th><th>Purpose</th><th>Use</th></tr>
+      <tr><td><code>run.py</code></td><td>Dependency-light local development server and provider proxy.</td><td>Local development only.</td></tr>
+      <tr><td><code>passenger_asgi.py</code></td><td>Starlette transport with production origin/host policy, health/readiness, shared security headers, and thread-pool wrapping of blocking adapters.</td><td>Production-style runtime candidate.</td></tr>
+      <tr><td><code>fixture_gateway.py</code></td><td>Loopback deterministic implementation of the guest-gateway contract and failure scenarios.</td><td>Local automated/manual integration testing only.</td></tr>
+    </table>
+  </section>
+
+  <section id="files">
+    <h2>4. Repository file map</h2>
+    <table class="files">
+      <tr><th>File</th><th>Responsibility</th><th>Maintainer note</th></tr>
+      <tr><td>passenger-only.html</td><td>Passenger HTML/CSS/JavaScript.</td><td>Highest visual/behavior regression risk. Change only with explicit product intent.</td></tr>
+      <tr><td>index.html</td><td>Passenger surface plus internal desktop development panel.</td><td>Never ship this as the public passenger document.</td></tr>
+      <tr><td>run.py</td><td>Local HTTP server, flight/weather/voice/vision/logo adapters and application APIs.</td><td>Keep application behavior aligned with ASGI routes.</td></tr>
+      <tr><td>passenger_asgi.py</td><td>ASGI transport, security middleware, health/readiness, production static policy.</td><td>Production entry point; internal docs and dev endpoints are blocked in production.</td></tr>
+      <tr><td>integration_bridge.py</td><td>Guest-session gateway adapter and authorization state.</td><td>Security boundary. Fail closed. Never expose upstream tokens.</td></tr>
+      <tr><td>fixture_gateway.py</td><td>Contract fixture and deterministic outage scenarios.</td><td>Test-only. Its semantics deliberately exercise negative states.</td></tr>
+      <tr><td>shared_guest_store.py</td><td>Redis-backed guest/discovery mappings.</td><td>Allows state to survive worker boundaries; remote production Redis requires TLS.</td></tr>
+      <tr><td>runtime_security.py</td><td>Environment validation, cookie policy, security headers.</td><td>Shared policy for local and ASGI paths.</td></tr>
+      <tr><td>app_logging.py</td><td>Structured metadata-only audit logger.</td><td>Never add URL/query/content/token fields.</td></tr>
+      <tr><td>sw.js</td><td>Small static shell cache.</td><td>Never cache APIs, captions, guest state or translation data.</td></tr>
+      <tr><td>requirements-progress.json</td><td>Mobile-only delivery/checklist ledger.</td><td>Source of truth for the internal checklist.</td></tr>
+      <tr><td>sync_progress.py</td><td>Validates ledger shape and embeds it in index.html.</td><td>Synchronization is not acceptance.</td></tr>
+      <tr><td>tests/</td><td>Regression, guest-boundary, ASGI, distributed-state and engineering tests.</td><td>Add a regression test for every fixed defect.</td></tr>
+      <tr><td>quality/verify_v78.py</td><td>Fast no-network release invariants.</td><td>Protects the intentional splash contract, JavaScript syntax, PWA cache version and tracker integrity.</td></tr>
+      <tr><td>INTEGRATION_CONTRACT.md</td><td>Reviewed guest gateway contract.</td><td>Update whenever upstream application-contract semantics change.</td></tr>
+      <tr><td>DEVELOPER_HANDOFF.md</td><td>Repository continuation rules.</td><td>Start here for a new maintainer.</td></tr>
+    </table>
+  </section>
+
+  <section id="frontend">
+    <h2>5. Frontend model</h2><div class="callout"><strong>v78 Wordly launch transition.</strong> The passenger document now opens with a two-second centered <code>Powered By</code> + Wordly wordmark. The transition is implemented as a runtime-measured shared-element flight: temporary fixed-position visual copies animate to the actual <code>#welcome .home-powered</code> text/logo rectangles, then are destroyed and the untouched Home footer is revealed. This avoids hard-coded device coordinates and keeps the Home screen authoritative. The feature is isolated from navigation/session state and falls back to a simple fade for <code>prefers-reduced-motion</code>.</div>
+    <p class="lead">The frontend remains deliberately framework-free in this release. The two HTML files contain the visual system, screen markup, application state, localization map, animation logic, scanning workflow, Demo behavior, and Integration client. This avoids a framework rewrite that could alter the established experience.</p>
+    <h3>Major frontend domains</h3>
+    <table>
+      <tr><th>Domain</th><th>Key functions / identifiers</th><th>Intent</th></tr>
+      <tr><td>Navigation & transitions</td><td><code>show</code>, <code>beginSpatialTransition</code>, <code>finishPageTransition</code>, logo-flight helpers</td><td>Preserve spatial continuity between touched control and destination page.</td></tr>
+      <tr><td>Localization</td><td><code>languages</code>, <code>UI</code>, <code>tr</code>, <code>applyLocale</code></td><td>Six-language interface copy. Avoid hard-coded visible English outside the translation map.</td></tr>
+      <tr><td>Flight discovery</td><td><code>runProgressiveSearch</code>, <code>renderProgressiveFlights</code>, <code>selectFlightForConfirm</code></td><td>Progressive information-first search and explicit flight confirmation.</td></tr>
+      <tr><td>Scanning</td><td><code>startCamera</code>, <code>scanTick</code>, <code>parseBCBPFlight</code>, printed-flight OCR helpers</td><td>Barcode-first scan, optional printed-flight recognition, manual fallback and camera cleanup.</td></tr>
+      <tr><td>Live experience</td><td><code>renderLive</code>, <code>setTextMode</code>, gate animation, orb/X playback functions</td><td>Core real-time passenger surface. Visual changes require deliberate review.</td></tr>
+      <tr><td>Demo announcements</td><td><code>startDemo</code>, <code>deliverDemoAnnouncement</code>, <code>playDemoAudio</code></td><td>Sample-only mode, separate from Integration.</td></tr>
+      <tr><td>Integration client</td><td><code>iDiscover</code>, <code>iJoin</code>, <code>iPoll</code>, <code>iStateView</code>, <code>iLeave</code></td><td>Guest-session discovery/join/state/events with stale-caption suppression and bounded retries.</td></tr>
+      <tr><td>Accessibility/settings</td><td>text-only mode, caption scale, reduced motion, notification controls</td><td>Keep function available without making translation status ambiguous.</td></tr>
+    </table>
+    <div class="note"><strong>Why two HTML files?</strong> <code>index.html</code> is the internal review shell; <code>passenger-only.html</code> removes development chrome. Their passenger experience is intentionally kept aligned. If frontend modularization is later performed, regression-test visual output before eliminating this duplication.</div>
+  </section>
+
+  <section id="backend">
+    <h2>6. Backend model</h2>
+    <h3>Local core</h3>
+    <p><code>run.py</code> owns reusable provider functions and the local <code>BaseHTTPRequestHandler</code>. It loads optional local credentials, normalizes provider responses, bounds downloads/bodies, maintains small caches, serves static assets, and forwards guest-session work through <code>integration_bridge.GATEWAY</code>.</p>
+    <h3>ASGI adapter</h3>
+    <p><code>passenger_asgi.py</code> deliberately reuses the same core provider functions to minimize behavior drift. Blocking network functions are executed in Starlette’s thread pool. Security middleware attaches request IDs and baseline headers without logging sensitive request content.</p>
+    <h3>Configuration policy</h3>
+    <p><code>runtime_security.read_settings()</code> validates <code>LX_ENV</code>, port, fixture/LAN constraints, and the production public origin. Production forbids the fixture and requires a noninteractive start. The guest gateway itself separately requires shared Redis state when configured in production.</p>
+  </section>
+
+  <section id="integration">
+    <h2>7. Translation integration boundary</h2>
+    <p>The code does not assume an undocumented Wordly REST API. It defines an AV-ation-controlled gateway contract that can later be backed by the approved provider integration.</p>
+    <div class="flow"><span>Discover active session</span><b>→</b><span>Optional invite resolution</span><b>→</b><span>Guest join</span><b>→</b><span>HttpOnly handle</span><b>→</b><span>State/events polling</span><b>→</b><span>Leave / expire / revoke</span></div>
+    <h3>Server-to-gateway contract</h3>
+    <table class="api">
+      <tr><th>Route</th><th>Purpose</th><th>Auth</th></tr>
+      <tr><td>GET /v1/capabilities</td><td>Read service readiness/capabilities.</td><td>Server service bearer.</td></tr>
+      <tr><td>GET /v1/sessions?flight=…</td><td>Discover translation sessions for normalized flight code.</td><td>Server service bearer.</td></tr>
+      <tr><td>GET /v1/invites/resolve?code=…</td><td>Resolve invitation to flight/session metadata.</td><td>Server service bearer.</td></tr>
+      <tr><td>POST /v1/guest/join</td><td>Obtain short-lived upstream guest token.</td><td>Server service bearer.</td></tr>
+      <tr><td>GET /v1/guest/state</td><td>Read guest-scoped delivery state.</td><td>Upstream guest bearer.</td></tr>
+      <tr><td>GET /v1/guest/events?after=…</td><td>Fixture-only text-event stream in this release.</td><td>Upstream guest bearer.</td></tr>
+    </table>
+    <div class="critical"><strong>Media truth:</strong> a healthy gateway does not mean translated audio/text is delivered. For non-fixture gateways this release returns no translated event stream until a reviewed real media transport is implemented.</div>
+  </section>
+
+  <section id="api">
+    <h2>8. Browser-facing application APIs</h2>
+    <table class="api">
+      <tr><th>Route</th><th>Method</th><th>Purpose / notes</th></tr>
+      <tr><td>/api/status</td><td>GET</td><td>Configuration booleans only; does not expose credentials.</td></tr>
+      <tr><td>/api/flights?q=…</td><td>GET</td><td>Normalized flight lookup with bounded provider response and cache.</td></tr>
+      <tr><td>/api/weather?q=…&lang=…</td><td>GET</td><td>Destination current-weather adapter.</td></tr>
+      <tr><td>/api/demo-audio</td><td>GET</td><td>Generated/cached sample announcement audio for Demo mode.</td></tr>
+      <tr><td>/api/flight-number-vision</td><td>POST</td><td>Optional cropped-frame printed flight-number recognition.</td></tr>
+      <tr><td>/api/live/session</td><td>POST</td><td>Existing live voice/session helper; not a substitute for venue translation media.</td></tr>
+      <tr><td>/api/airline-logo</td><td>GET</td><td>Validated local/cached carrier artwork.</td></tr>
+      <tr><td>/api/airline-library</td><td>GET</td><td>Developer inventory of carrier-logo sources.</td></tr>
+      <tr><td>/api/integration/health</td><td>GET</td><td>Gateway application-level readiness snapshot.</td></tr>
+      <tr><td>/api/integration/sessions</td><td>GET</td><td>Discover active session(s) for flight.</td></tr>
+      <tr><td>/api/integration/invite</td><td>GET</td><td>Resolve invitation metadata.</td></tr>
+      <tr><td>/api/integration/join</td><td>POST</td><td>Creates scoped guest session and HttpOnly browser handle.</td></tr>
+      <tr><td>/api/integration/state</td><td>GET</td><td>Guest delivery state; invalid upstream authorization clears grant.</td></tr>
+      <tr><td>/api/integration/events</td><td>GET</td><td>Fixture text events only in this release.</td></tr>
+      <tr><td>/api/integration/leave</td><td>POST</td><td>Clears guest mapping and cookie.</td></tr>
+      <tr><td>/api/dev/status</td><td>GET</td><td>Loopback-only local developer mode snapshot. Hidden in production.</td></tr>
+      <tr><td>/api/dev/mode</td><td>POST</td><td>Loopback-only Demo/Integration switch. Hidden in production.</td></tr>
+      <tr><td>/api/dev/fixture</td><td>GET/POST</td><td>Loopback-only failure-scenario fixture control. Hidden in production.</td></tr>
+      <tr><td>/healthz</td><td>GET</td><td>ASGI liveness.</td></tr>
+      <tr><td>/readyz</td><td>GET</td><td>ASGI readiness; checks shared store when configured/distributed.</td></tr>
+    </table>
+  </section>
+
+  <section id="security">
+    <h2>9. Security and privacy invariants</h2>
+    <ul class="checklist">
+      <li><strong>Credential isolation:</strong> service keys remain server-side. Browser integration uses only same-origin APIs.</li>
+      <li><strong>Gateway transport:</strong> non-loopback gateway URLs must be HTTPS. Credential-bearing redirects are rejected.</li>
+      <li><strong>Guest cookie:</strong> <code>HttpOnly</code>, <code>SameSite=Strict</code>, scoped to <code>/api/integration</code>; <code>Secure</code> in production.</li>
+      <li><strong>Guest state:</strong> browser receives an opaque random handle, not the upstream guest token.</li>
+      <li><strong>Invite binding:</strong> when supplied, an invitation must resolve to the discovered flight and exact session before join.</li>
+      <li><strong>Revocation:</strong> upstream 401/403 state/event failures evict the local grant. Negative fixture scenarios clear/reject grants.</li>
+      <li><strong>Request bounds:</strong> JSON bodies and upstream downloads have explicit maximum sizes.</li>
+      <li><strong>Origin policy:</strong> production POSTs require the exact configured HTTPS public origin.</li>
+      <li><strong>Host policy:</strong> ASGI production rejects unexpected Host values.</li>
+      <li><strong>Headers:</strong> nosniff, no-referrer, frame denial, restricted permissions, and HSTS in production.</li>
+      <li><strong>Audit logging:</strong> fixed metadata schema only: event, status, latency, request ID, timestamp.</li>
+      <li><strong>Fixture isolation:</strong> fixture cannot run in production or LAN mode; developer controls require loopback ownership.</li>
+    </ul>
+    <div class="warning"><strong>Future security work:</strong> deployment-level rate limiting, edge/WAF policy, secret-manager integration, provider-specific authorization review, formal threat modeling, and independent penetration testing cannot be proven by this local package alone.</div>
+  </section>
+
+  <section id="state">
+    <h2>10. Guest and translation lifecycle</h2>
+    <h3>Browser-visible lifecycle</h3>
+    <div class="flow"><span>Demo</span><b>↔</b><span>Integration selected</span><b>→</b><span>Session discovered</span><b>→</b><span>Guest joined</span><b>→</b><span>Connected / reconnecting / unavailable</span><b>→</b><span>Leave / expire / ended</span></div>
+    <h3>Server guest record</h3>
+    <p>A server-side mapping contains the upstream token, expiry, session ID, selected language, and event sequence. In local development it is in memory. In configured production mode, the gateway requires the Redis-backed stores from <code>shared_guest_store.py</code> so workers do not hold contradictory authorization state.</p>
+    <h3>Stale-content rule</h3>
+    <p>Language, flight, session, mode, expiry, or denied access clears transient caption state. The client must not leave an old caption on screen while representing a different translation context.</p>
+  </section>
+
+  <section id="providers">
+    <h2>11. External provider adapters</h2>
+    <table>
+      <tr><th>Provider/function</th><th>Code boundary</th><th>Production note</th></tr>
+      <tr><td>Aviationstack flight data</td><td><code>provider_data</code>, <code>lookup</code></td><td>HTTPS only; normalized into the app’s flight shape. Credential is server-side.</td></tr>
+      <tr><td>WeatherAPI</td><td><code>destination_weather</code></td><td>Server-side key; 10-minute cache; returns restrained weather fields/scenes.</td></tr>
+      <tr><td>OpenAI sample voice</td><td><code>demo_audio</code></td><td>Demo/sample behavior; cached by deterministic content key.</td></tr>
+      <tr><td>OpenAI printed-flight vision</td><td><code>extract_flight_number_vision</code></td><td>Receives cropped frame through local server only when that path is used; do not log/store frame.</td></tr>
+      <tr><td>Carrier artwork sources</td><td><code>airline_logo</code> and library helpers</td><td>Validate/crop/cache artwork; brand/trademark review is a product/legal concern.</td></tr>
+      <tr><td>AV-ation translation gateway</td><td><code>integration_bridge.py</code></td><td>Contract is integration-ready; real provider media/rights are not represented by the fixture.</td></tr>
+    </table>
+  </section>
+
+  <section id="offline">
+    <h2>12. PWA and caching rules</h2>
+    <p><code>sw.js</code> caches a small static shell and local visual assets. Navigation to the app shell is network-first with offline fallback. Same-origin GET assets on the explicit shell list are cache-first.</p>
+    <div class="critical"><strong>Never cache <code>/api/</code>.</strong> Guest state, translated captions, authorization responses, and service status must not be persisted by the service worker.</div>
+    <p>Changing shell assets requires a cache-name bump so older installed previews do not retain stale CSS/JavaScript.</p>
+  </section>
+
+  <section id="accessibility">
+    <h2>13. Accessibility behavior to preserve</h2>
+    <ul class="checklist">
+      <li>Keyboard focus indication for interactive controls.</li>
+      <li>Semantic roles and labels on dialogs, live status regions, scan areas, and controls.</li>
+      <li>Text-only translation mode and adjustable caption scale.</li>
+      <li>Reduced-motion support through OS preference and app behavior.</li>
+      <li>Readable failure states that do not depend on color alone.</li>
+      <li>Explicit control labels for language, recent announcements, flight change, and settings.</li>
+    </ul>
+    <p class="small">A formal WCAG audit remains separate from these implementation affordances.</p>
+  </section>
+
+  <section id="testing">
+    <h2>14. Testing and quality gates</h2>
+    <h3>Automated suite</h3>
+    <pre><code>python3 -m unittest discover -s tests -v
+python3 quality/verify_v78.py</code></pre>
+    <p>Tests cover gateway contract behavior, v74/v75 regressions, HTTP behavior, guest-boundary negatives, ASGI transport, distributed/shared-state behavior, and v76 engineering controls. v77 added developer handoff documentation; v78 adds the intentionally passenger-visible Wordly launch transition while preserving all downstream Home and workflow behavior.</p>
+    <h3>Manual integration fixture groups</h3>
+    <table>
+      <tr><th>Group</th><th>Current user-reported status</th></tr>
+      <tr><td>1 · Healthy session</td><td class="status-ok">Passed</td></tr>
+      <tr><td>2 · Language and flight changes</td><td class="status-ok">Passed</td></tr>
+      <tr><td>3 · Connection recovery</td><td class="status-ok">Passed</td></tr>
+      <tr><td>4 · Provider/session failures</td><td class="status-ok">Passed</td></tr>
+      <tr><td>5 · Guest access and invitations</td><td class="status-ok">Passed after v75 correction</td></tr>
+      <tr><td>6 · Captions, accessibility, cleanup</td><td class="status-ok">Passed</td></tr>
+    </table>
+    <p class="small">These are user-reported local fixture results. They are not evidence of live Wordly/AES67 delivery, native-device production behavior, or contractual Final Acceptance.</p>
+  </section>
+
+  <section id="tracker">
+    <h2>15. Mobile checklist governance</h2>
+    <p><code>requirements-progress.json</code> is the authoritative ledger for the right-side internal checklist. It contains 10 prototype/test-harness tasks plus 32 Exhibit C mobile requirements. The tracker deliberately excludes separate non-passenger applications.</p>
+    <pre><code># after a reviewed ledger edit
+python3 sync_progress.py
+python3 quality/verify_v78.py</code></pre>
+    <ul class="checklist">
+      <li><code>done</code> on a prototype means that prototype task is built/evidenced.</li>
+      <li><code>done</code> on a contractual item requires evidence for the complete requirement, not merely a UI or fixture.</li>
+      <li>An integration adapter is not a live integration.</li>
+      <li>A fixture result is not production acceptance.</li>
+      <li>The internal checklist is not AV-ation Final Acceptance.</li>
+    </ul>
+  </section>
+
+  <section id="deployment">
+    <h2>16. Deployment path</h2>
+    <h3>Local development</h3>
+    <p><code>start.py</code> → <code>run.py</code> + loopback fixture. This is optimized for repeatable product testing, not internet exposure.</p>
+    <h3>Production-style application server</h3>
+    <p><code>passenger_asgi:app</code> is the supported web transport. Production mode requires an HTTPS public origin and, when a gateway is configured, shared Redis guest state. <code>Dockerfile.candidate</code> documents a conservative one-worker container entry point but is explicitly not a scale certification.</p>
+    <h3>Before a real external deployment</h3>
+    <ul class="checklist">
+      <li>Use reviewed infrastructure, TLS termination, secret manager, observability, rate limiting, and deployment rollback.</li>
+      <li>Verify the real translation gateway/provider contract and media delivery.</li>
+      <li>Load-test the actual architecture at a defined concurrency/event rate.</li>
+      <li>Run security, accessibility, browser/device and failure-mode acceptance tests.</li>
+      <li>Bundle/review browser dependencies and establish CSP compatible with the final asset architecture.</li>
+    </ul>
+  </section>
+
+  <section id="changes">
+    <h2>17. Safe change protocol</h2>
+    <ol class="checklist">
+      <li>State the intended behavior change before editing.</li>
+      <li>Identify whether the change touches passenger UX, application API, guest authorization, provider adapter, cache, or internal tooling.</li>
+      <li>For non-UX work, do not opportunistically “clean up” HTML/CSS/animation.</li>
+      <li>Add or update automated tests first for security-sensitive regressions.</li>
+      <li>Keep <code>run.py</code> and <code>passenger_asgi.py</code> semantically aligned for shared routes.</li>
+      <li>If guest/session semantics change, update <code>INTEGRATION_CONTRACT.md</code>.</li>
+      <li>If architecture/config/routes/state change, update this page and <code>DEVELOPER_HANDOFF.md</code>.</li>
+      <li>Run the full test suite and no-network verification.</li>
+      <li>Manually compare the affected screens and interaction path against the previous approved release.</li>
+      <li>Update release/QA documentation; never infer contractual completion from implementation alone.</li>
+    </ol>
+  </section>
+
+  <section id="troubleshooting">
+    <h2>18. Troubleshooting</h2>
+    <h3>Integration says gateway URL/token missing</h3>
+    <p>For local fixture testing, start with <code>python3 start.py</code>. Confirm <code>/api/dev/fixture</code> reports <code>enabled: true</code>. If an older process owns port 8765, stop it before relaunching.</p>
+    <h3>Fixture is disabled</h3>
+    <p><code>start.py</code> explicitly enables it. Direct <code>python3 run.py</code> does not unless <code>LX_ENABLE_FIXTURE=1</code> is present. Fixture use is intentionally rejected in production and LAN mode.</p>
+    <h3>Flight / voice / weather unavailable</h3>
+    <p>These optional services use server-local environment values or the current package’s <code>.env</code>. v76+ does not harvest credentials from historical folders.</p>
+    <h3>Guest access remains blocked after a negative fixture scenario</h3>
+    <p>Return the fixture scenario to Healthy. Revocation/invalid-invite scenarios intentionally clear existing grants; a new guest join is required.</p>
+    <h3>Checklist edits do not appear</h3>
+    <p>Edit <code>requirements-progress.json</code>, then run <code>python3 sync_progress.py</code>. The browser does not write checklist acceptance back to disk.</p>
+  </section>
+
+  <section id="open">
+    <h2>19. Known open gates</h2>
+    <p class="lead">These are intentionally not disguised as completed work. They do not negate the quality of the local code, but they remain required before a real production claim.</p>
+    <table>
+      <tr><th>Area</th><th>Status</th><th>What remains</th></tr>
+      <tr><td>Real translation media</td><td class="status-open">Open</td><td>Approved provider gateway/media implementation, entitlements, delivery telemetry and acceptance.</td></tr>
+      <tr><td>Scale certification</td><td class="status-open">Open</td><td>Load test actual deployment, Redis, provider gateway and event cadence against explicit SLOs.</td></tr>
+      <tr><td>Frontend packaging</td><td class="status-open">Open</td><td>Potential module extraction/bundling can improve maintainability, but must preserve the approved UX and be regression-tested.</td></tr>
+      <tr><td>CSP / dependency hardening</td><td class="status-open">Open</td><td>Finalize bundled browser dependencies and strict production CSP compatible with chosen build architecture.</td></tr>
+      <tr><td>Native/mobile acceptance</td><td class="status-open">Open</td><td>Real iOS/Android/browser matrix, background/call behavior, camera permissions and accessibility testing.</td></tr>
+      <tr><td>Infrastructure controls</td><td class="status-open">Open</td><td>Secret manager, rate limiting, edge controls, metrics/alerts, deployment pipeline, backup/restore and rollback.</td></tr>
+    </table>
+  </section>
+
+  <footer class="footer">Linguist-X Passenger engineering documentation · v78 · Internal development artifact. Keep this page synchronized with code changes.</footer>
+</main>
+</div>
+</body>
+</html>

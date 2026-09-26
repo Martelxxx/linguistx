@@ -1,0 +1,14 @@
+# DEVNOTE: Keep secrets, VCS/CI metadata, caches and local build artifacts out of candidate container contexts.
+.env
+.env.*
+!.env.example
+.git
+.github
+__pycache__
+.pytest_cache
+.coverage*
+*.zip
+audio_cache/*
+.airline-cache
+node_modules
+dist

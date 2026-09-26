@@ -1,0 +1,535 @@
+{
+  "schemaVersion": 2,
+  "release": "v78",
+  "agreementDate": "2026-09-21",
+  "baseline": "September 11 Draft 0.1 and integrated requirements v0.2 (not supplied separately)",
+  "updated": "2026-09-25",
+  "policy": "Mobile-only. User-reported manual fixture tests 1–6 passed, including the v75 Test 5 guest-access retest. v78 adds a documented Wordly launch splash/shared-element transition into the existing Home attribution while preserving the Home layout and all passenger workflow behavior. Fixture results remain local evidence only; they do not establish live provider delivery, native-device production behavior, or contractual Final Acceptance. UI-09 remains user verified and MG-07 remains user approved.",
+  "groups": [
+    {
+      "id": "prototype",
+      "title": "Mobile prototype & test harness",
+      "context": "Passenger UI and its internal test controls · prototypes are not contract acceptance",
+      "items": [
+        {
+          "id": "UI-01",
+          "title": "Branded passenger screens and centered, navigable identity",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Implemented in the passenger HTML.",
+          "proof": "v70 screens and home-logo navigation",
+          "evidence": "v70 screens and home-logo navigation"
+        },
+        {
+          "id": "UI-02",
+          "title": "Six-language interface selection and localized screen copy",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Six interface language options; entitlement-limited Wordly outputs remain unverified.",
+          "proof": "v70 language selector and translations",
+          "evidence": "v70 language selector and translations"
+        },
+        {
+          "id": "UI-03",
+          "title": "Progressive flight search and explicit flight confirmation",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Flight lookups depend on external data; does not establish venue-session discovery.",
+          "proof": "v60–v70 interface flow",
+          "evidence": "v60–v70 interface flow"
+        },
+        {
+          "id": "UI-04",
+          "title": "Live flight and gate presentation with readable optical treatment",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Demo/live-data visualization, not real Wordly/AES67 delivery.",
+          "proof": "v59–v70 Live card",
+          "evidence": "v59–v70 Live card"
+        },
+        {
+          "id": "UI-05",
+          "title": "Passenger inbox and sample announcement playback controls",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Sample and device speech are not verified translated Wordly media.",
+          "proof": "v70 inbox and playback UI",
+          "evidence": "v70 inbox and playback UI"
+        },
+        {
+          "id": "UI-06",
+          "title": "Airline-code catalog, local carrier marks, and explicit fallback",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Authentic mark coverage is not guaranteed for every airline.",
+          "proof": "v65–v70 airline library",
+          "evidence": "v65–v70 airline library"
+        },
+        {
+          "id": "UI-07",
+          "title": "Soft-origin screen transitions and smooth logo return",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Browser prototype animation, not mobile device acceptance.",
+          "proof": "v66–v70 transitions",
+          "evidence": "v66–v70 transitions"
+        },
+        {
+          "id": "UI-08",
+          "title": "Wordly home-page attribution with embedded wordmark",
+          "status": "done",
+          "source": "Prototype v70",
+          "note": "Credit only; Wordly licensing and production connection unverified.",
+          "proof": "v69–v70 attribution",
+          "evidence": "v69–v70 attribution"
+        },
+        {
+          "id": "UI-09",
+          "title": "Boarding-pass scanning path with manual fallback",
+          "status": "done",
+          "source": "Prototype v74 · user confirmed",
+          "note": "User confirmed all six scanning validations in the earlier checklist; evidence is user-reported, not independently instrumented here.",
+          "proof": "Device scan testing and regression evidence",
+          "evidence": "User-reported completion of iPhone, Android, barcode parsing, permission/failure, manual fallback and camera cleanup checklist; 2026-09-23; device logs not separately attached."
+        },
+        {
+          "id": "UI-11",
+          "title": "Mobile Demo / Integration Test control outside the passenger app",
+          "status": "done",
+          "source": "Prototype v72",
+          "note": "Outside-phone internal Demo/Integration toggle with an opt-in deterministic local fixture. The fixture is never a production Wordly source.",
+          "proof": "tests/test_bridge.py and desktop preview, v72",
+          "evidence": "v72 local fixture contract + UI checks"
+        }
+      ]
+    },
+    {
+      "id": "mobile-alpha",
+      "title": "Alpha · mobile requirements",
+      "context": "Exhibit C, p.19 · A01–A12 · only the app-facing work and its required integration proof",
+      "items": [
+        {
+          "id": "A01",
+          "title": "Admin controls two Wordly sessions and the app reflects session state",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "The app has session-state presentation and a v72 discovery adapter. Actual admin-driven operation of two Wordly sessions has not been demonstrated.",
+          "proof": "Integrated test record for A01",
+          "evidence": "",
+          "interface": "partial",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A02",
+          "title": "Real AES67 sources deliver matching translated phone audio/text and outputs",
+          "status": "pending",
+          "source": "Exhibit C, p.19",
+          "note": "The phone can present text and playback controls; real AES67-fed Wordly audio/text delivery and assigned output parity remain external integration dependencies.",
+          "proof": "Integrated test record for A02",
+          "evidence": "",
+          "interface": "partial",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "A03",
+          "title": "Account-free QR/link guest joins and safe session/language switching",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v75: Manual fixture tests 1 and 2 passed per user, including account-free join and safe language/flight changes. The local gateway now rejects invalid/revoked join scenarios; real venue invites and physical device testing remain outstanding.",
+          "proof": "Integrated test record for A03",
+          "evidence": "User fixture tests 1–2 passed 2026-09-23; v75 local contract regression. External session issuance/device proof pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A04",
+          "title": "Revocable venue/demo invites hide control endpoints and credentials",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v75 corrects v74 Test 5: simulated invalid invite and revocation invalidate existing grants and deny new joins and protected events; matching invitation checked against discovered flight and session. Real issuer, revocation authority, venue scope and independent testing outstanding; user-reported Test 5 retest passed.",
+          "proof": "Integrated test record for A04",
+          "evidence": "v75 tests/test_v75_guest_boundary.py negative authorization tests; manual v74 Test 5 failed; v75 manual retest passed per user.",
+          "interface": "not-applicable",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A05",
+          "title": "Explicit Listen, background/lock audio and post-call resume consent",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "Listen UI is implemented. Native background/lock-screen audio, call interruption and explicit post-call resume need an installed-app test.",
+          "proof": "Integrated test record for A05",
+          "evidence": "",
+          "interface": "partial",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "A06",
+          "title": "Live text during calls; no translated content stored on phone",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v74 volatile caption buffer is bounded to six messages, retained in-memory across simulated call-mute, cleared on exit/session stop/mode/language failure. Real call behavior and live provider text remain unverified.",
+          "proof": "Integrated test record for A06",
+          "evidence": "User fixture tests 2 and 6 passed 2026-09-23; real translated text/call/privacy validation pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A07",
+          "title": "Session/language and honest Connected/Reconnecting/Unavailable status",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v74 status reducer distinguishes connected guest API from media delivery and maps explicit provider/connection/license reasons; fixture tests. Actual media-delivery health measurement remains open.",
+          "proof": "Integrated test record for A07",
+          "evidence": "User fixture tests 1, 3 and 4 passed 2026-09-23; real media-delivery telemetry pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A08",
+          "title": "Wi-Fi/cellular recovery, stale labeling and clean session stop",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "Bounded exponential retry, stale-text clearing, terminal/revoked guest handling, and fixture network/cloud outage scenarios implemented. Real Wi-Fi/cellular and session tests remain open.",
+          "proof": "Integrated test record for A08",
+          "evidence": "User fixture tests 2–4 passed 2026-09-23; physical Wi-Fi/cellular transition proof pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A09",
+          "title": "Correlated privacy-safe logs; 2 sessions × 4 languages × 16 listeners",
+          "status": "pending",
+          "source": "Exhibit C, p.19",
+          "note": "Mobile-facing proof depends on correlated message/session/language/output telemetry and a measured 16-listener test; not yet available.",
+          "proof": "Integrated test record for A09",
+          "evidence": "",
+          "interface": "not-applicable",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "A10",
+          "title": "Signed iOS TestFlight and Android internal-test distributions",
+          "status": "pending",
+          "source": "Exhibit C, p.19",
+          "note": "Current deliverable is a browser prototype. Signed iOS TestFlight and Android internal-test packages have not been supplied.",
+          "proof": "Integrated test record for A10",
+          "evidence": "",
+          "interface": "not-started",
+          "connection": "not-applicable",
+          "verified": false
+        },
+        {
+          "id": "A11",
+          "title": "TLS scoped guest service; no guest access to local PA API",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v75 fixes negative guest tests: bearer grant invalidation, upstream 403 eviction, denied rejoin until scenario reset, cookie cleared after a denied join, cross-flight invitation rejection. User Test 5 retest passed; production TLS, PA isolation and independent security review remain outstanding.",
+          "proof": "Integrated test record for A11",
+          "evidence": "v75 tests/test_v75_guest_boundary.py plus HTTP/browser boundary checks; user v74 Test 5 failed; v75 manual retest passed per user.",
+          "interface": "not-applicable",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "A12",
+          "title": "Readable controls, scalable captions and text-only Alpha testing",
+          "status": "partial",
+          "source": "Exhibit C, p.19",
+          "note": "v74 adds in-memory text-only caption region, accessible controls, adjustable font scale and textual connection labels. Contrast, VoiceOver/TalkBack and physical-device validation remain.",
+          "proof": "Integrated test record for A12",
+          "evidence": "User fixture Test 6 passed 2026-09-23 for text-only and caption sizing; full Alpha accessibility/device testing pending.",
+          "interface": "built",
+          "connection": "not-applicable",
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "mobile-gold",
+      "title": "Gold · mobile requirements",
+      "context": "Exhibit C, pp.19–20 · 12 mobile areas; external services shown only when the app depends on them",
+      "items": [
+        {
+          "id": "MG-01",
+          "title": "Journey & discovery",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "Flight journey, account-free gateway discovery, optional lx_invite QR/deep link, session selection and safe language switching implemented in adapter. Real venues and physical-device validation remain.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "User fixture tests 1–2 passed 2026-09-23; real venue session discovery and devices pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "MG-02",
+          "title": "Language & delivery",
+          "status": "pending",
+          "source": "Exhibit C, pp.19–20",
+          "note": "Interface language selection exists; real entitlement-limited Wordly languages and synchronized message/session/language audio/text are not connected.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "",
+          "interface": "partial",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "MG-03",
+          "title": "Accessibility",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "v74 adds scalable, screen-reader-labeled text-only caption controls; full VoiceOver/TalkBack/focus/contrast device review remains.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "User fixture Test 6 passed 2026-09-23; VoiceOver, TalkBack, focus and real-device audit pending.",
+          "interface": "partial",
+          "connection": "not-applicable",
+          "verified": false
+        },
+        {
+          "id": "MG-04",
+          "title": "Guest access & privacy",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "No passenger account and v74 in-memory captions with cleanup on leave/revoke/error. No translated text/audio is persisted by the client; storage inspection after restart/reinstall and approved settings still need verification.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "User fixture tests 2 and 6 passed 2026-09-23; production retention/privacy review pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "MG-05",
+          "title": "Security",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "v75 fixes v74 Test 5 local authorization regressions (deny join/state/events, upstream revoked-grant eviction, fail-closed invitation/session binding). Fixture proof only; user manual retest passed; tenant isolation, rate limits and independent pen testing remain.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "v75 negative authorization regression plus user-reported failure from v74 Test 5; production security proof outstanding.",
+          "interface": "not-applicable",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "MG-06",
+          "title": "Network",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "v74 distinguishes network/cloud outages, retry, stale captions and explicit license/stop states in a deterministic fixture; real Wi-Fi/cellular and background tests remain.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "User fixture Test 3 passed 2026-09-23; real Wi-Fi/cellular media and device evidence pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        },
+        {
+          "id": "MG-07",
+          "title": "Notifications",
+          "status": "done",
+          "source": "Exhibit C · user-approved v74",
+          "note": "User explicitly approved completion of in-app state/quality notices. v74 implements fixture-generated status notices for connection, provider failure, pause, license and language states. Real provider quality telemetry remains a separate external integration dependency (A07 / MG-06).",
+          "proof": "User-confirmed mobile notification behavior; test fixture checks",
+          "evidence": "Explicit user signoff 2026-09-23. User fixture tests 3–4 passed 2026-09-23. This is internal developer checklist completion, not AV-ation Final Acceptance.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": true
+        },
+        {
+          "id": "MG-08",
+          "title": "Emergency display",
+          "status": "pending",
+          "source": "Exhibit C, pp.19–20",
+          "note": "No verified PA-origin emergency event visual is integrated. The mobile app must render a marked translated event and return to prior session.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "",
+          "interface": "not-started",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "MG-09",
+          "title": "Administration",
+          "status": "pending",
+          "source": "Exhibit C, pp.19–20",
+          "note": "Mobile dependency only: app must reflect authorized admin session, invitation, language and emergency visual settings; admin console is a separate workstream.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "",
+          "interface": "not-applicable",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "MG-10",
+          "title": "Analytics",
+          "status": "pending",
+          "source": "Exhibit C, pp.19–20",
+          "note": "Mobile dependency only: anonymous join, language, streaming/reconnect and OS/version telemetry needs secure service integration; no passenger tracking.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "",
+          "interface": "not-applicable",
+          "connection": "not-connected",
+          "verified": false
+        },
+        {
+          "id": "MG-11",
+          "title": "Stores & support",
+          "status": "pending",
+          "source": "Exhibit C, pp.19–20",
+          "note": "Browser preview exists; approved iOS/Android listings, privacy disclosures, compatibility, help and update/recovery procedures remain open.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "",
+          "interface": "partial",
+          "connection": "not-applicable",
+          "verified": false
+        },
+        {
+          "id": "MG-12",
+          "title": "Errors & proof",
+          "status": "partial",
+          "source": "Exhibit C, pp.19–20",
+          "note": "v75 visually labels denied guest access ACCESS BLOCKED and denies protected events at the gateway. User fixture Tests 4 and v75 Test 5 passed; v74 Test 5 failed previously. Actual provider failure evidence remains outstanding.",
+          "proof": "Gold device, security and operational evidence",
+          "evidence": "User fixture Test 4 passed 2026-09-23; v75 authorization regression; real provider proof pending.",
+          "interface": "built",
+          "connection": "adapter",
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "mobile-acceptance",
+      "title": "Mobile acceptance tests",
+      "context": "Exhibit C, p.20 · M AC 01–08 · require measured device and integration evidence",
+      "items": [
+        {
+          "id": "M AC 01",
+          "title": "2 AES67-fed Wordly sessions, 4 languages, 16 iOS/Android listeners and matching AES67 outputs",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 02",
+          "title": "Scoped QR/link launch, account-free session join/switch and revoked-invite rejection",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "User v74 Test 5 revealed access-control defects; v75 fixture negative tests passed, user manual retest passed; real production invitation integration outstanding.",
+          "verified": false
+        },
+        {
+          "id": "M AC 03",
+          "title": "Background/lock audio, call interruption, visible text and explicit resume",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 04",
+          "title": "Truthful recovery across Wi-Fi/cellular, Wordly outage, stop and wrong-language cases",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 05",
+          "title": "Lifecycle proof of zero persisted translated content, except approved settings",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 06",
+          "title": "Controlled PA emergency marker drives translated visual without exposing PA API",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 07",
+          "title": "VoiceOver, TalkBack, scaled-text critical flows and retested fixes",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        },
+        {
+          "id": "M AC 08",
+          "title": "Cross-tenant security, endurance, app-store approval and listener-capacity proof",
+          "status": "pending",
+          "source": "Exhibit C, p.20",
+          "note": "Mobile acceptance test has not been passed. Requires actual test build, devices, measured result, and a recorded evidence location.",
+          "proof": "Physical device + integrated acceptance report",
+          "evidence": "",
+          "verified": false
+        }
+      ]
+    }
+  ],
+  "scope": "Passenger mobile application only. Exhibit C A01–A12, 12 Gold areas and M AC 01–08; supported by mobile prototype tasks.",
+  "testGroups": [
+    {
+      "id": "T1",
+      "title": "Healthy session",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23: 5/5 checked, no findings. Fixture only."
+    },
+    {
+      "id": "T2",
+      "title": "Language and flight changes",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23: 5/5 checked, no findings. Fixture only."
+    },
+    {
+      "id": "T3",
+      "title": "Connection recovery",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23: 6/6 checked, no findings. Fixture only."
+    },
+    {
+      "id": "T4",
+      "title": "Provider and session failures",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23: 6/6 checked, no findings. Fixture only."
+    },
+    {
+      "id": "T5",
+      "title": "Guest access and invitations",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23 explicitly confirmed v75 Test 5 is fixed/passed after the fail-closed guest-access correction. Automated guest-boundary regressions also pass. Local fixture evidence only; production venue security/provider invitations remain separate gates."
+    },
+    {
+      "id": "T6",
+      "title": "Captions, accessibility, and cleanup",
+      "status": "user-passed",
+      "evidence": "User 2026-09-23: 6/6 checked, no findings. Fixture only."
+    }
+  ]
+}

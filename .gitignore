@@ -1,0 +1,17 @@
+# DEVNOTE: Exclude secrets, generated caches/build output, logs and packaged releases; .env.example is intentionally tracked.
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage*
+coverage.xml
+htmlcov/
+node_modules/
+dist/
+*.log
+audio_cache/*
+!audio_cache/.gitkeep
+.airline-cache/
+*.zip

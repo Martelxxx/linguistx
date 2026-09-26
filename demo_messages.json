@@ -1,0 +1,44 @@
+{
+  "English": {
+    "boarding": "Please have your boarding pass and travel documents ready when your flight is called for boarding.",
+    "baggage": "Please keep your baggage with you at all times. Report any unattended items to airport staff.",
+    "assistance": "Passengers who need additional assistance are welcome to speak with airline staff at their departure gate.",
+    "displays": "Departure times and gates may change. Please check the airport information displays for the latest updates.",
+    "aisle": "As you board, please keep the aisle clear and place smaller personal items under the seat in front of you."
+  },
+  "Français": {
+    "boarding": "Veuillez préparer votre carte d’embarquement et vos documents de voyage lorsque votre vol sera appelé.",
+    "baggage": "Gardez vos bagages avec vous à tout moment. Signalez tout bagage abandonné au personnel de l’aéroport.",
+    "assistance": "Les passagers ayant besoin d’aide peuvent s’adresser au personnel de leur compagnie à leur porte de départ.",
+    "displays": "Les horaires et les portes peuvent changer. Consultez les écrans d’information de l’aéroport pour les dernières mises à jour.",
+    "aisle": "Lors de l’embarquement, laissez l’allée dégagée et placez les petits effets personnels sous le siège devant vous."
+  },
+  "Español": {
+    "boarding": "Tenga preparados su tarjeta de embarque y sus documentos de viaje cuando se anuncie el embarque de su vuelo.",
+    "baggage": "Mantenga su equipaje con usted en todo momento. Informe al personal del aeropuerto si encuentra algún objeto abandonado.",
+    "assistance": "Los pasajeros que necesiten asistencia adicional pueden dirigirse al personal de la aerolínea en su puerta de salida.",
+    "displays": "Los horarios y las puertas de salida pueden cambiar. Consulte las pantallas del aeropuerto para ver la información más reciente.",
+    "aisle": "Durante el embarque, mantenga el pasillo despejado y coloque los objetos pequeños debajo del asiento delantero."
+  },
+  "中文": {
+    "boarding": "当您的航班开始登机时，请准备好登机牌和旅行证件。",
+    "baggage": "请始终随身看管行李。如发现无人看管的物品，请告知机场工作人员。",
+    "assistance": "如需额外协助，请前往出发登机口咨询航空公司工作人员。",
+    "displays": "出发时间和登机口可能变更。请查看机场信息显示屏了解最新情况。",
+    "aisle": "登机时请保持过道畅通，并将小件随身物品放在前方座椅下方。"
+  },
+  "العربية": {
+    "boarding": "يرجى تجهيز بطاقة الصعود ووثائق السفر عند الإعلان عن صعود رحلتكم.",
+    "baggage": "يرجى الاحتفاظ بأمتعتكم معكم في جميع الأوقات. أبلغوا موظفي المطار عن أي أغراض متروكة دون مراقبة.",
+    "assistance": "يمكن للمسافرين الذين يحتاجون إلى مساعدة إضافية التوجه إلى موظفي شركة الطيران عند بوابة المغادرة.",
+    "displays": "قد تتغير مواعيد المغادرة والبوابات. يرجى مراجعة شاشات معلومات المطار للاطلاع على آخر المستجدات.",
+    "aisle": "أثناء الصعود، يرجى إبقاء الممر خاليًا ووضع الأغراض الشخصية الصغيرة تحت المقعد أمامكم."
+  },
+  "Português": {
+    "boarding": "Tenha o cartão de embarque e os documentos de viagem prontos quando o embarque do seu voo for anunciado.",
+    "baggage": "Mantenha sempre a sua bagagem consigo. Comunique ao pessoal do aeroporto quaisquer objetos abandonados.",
+    "assistance": "Os passageiros que necessitem de assistência adicional podem falar com os funcionários da companhia na porta de embarque.",
+    "displays": "Os horários e as portas de embarque podem mudar. Consulte os ecrãs informativos do aeroporto para obter atualizações.",
+    "aisle": "Durante o embarque, mantenha o corredor desimpedido e coloque os objetos mais pequenos debaixo do banco à sua frente."
+  }
+}

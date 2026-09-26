@@ -1,0 +1,115 @@
+LINGUIST-X v65 — VERIFIED AIRLINE IDENTITY INVENTORY
+
+ACTUAL BUNDLED VECTOR MARKS — Available offline:
+  AA  American Airlines          airlines/custom/AA.svg
+  AC  Air Canada                 airlines/custom/AC.svg
+  AF  Air France                 airlines/custom/AF.svg
+  BA  British Airways            airlines/custom/BA.svg
+  DL  Delta Air Lines            airlines/custom/DL.svg
+  EK  Emirates                   airlines/custom/EK.svg
+  ET  Ethiopian Airlines         airlines/custom/ET.svg
+  JL  Japan Airlines             airlines/custom/JL.svg
+  KE  Korean Air                 airlines/custom/KE.svg
+  KL  KLM                        airlines/custom/KL.svg
+  LH  Lufthansa                  airlines/custom/LH.svg
+  SQ  Singapore Airlines         airlines/custom/SQ.svg
+  TK  Turkish Airlines           airlines/custom/TK.svg
+  WN  Southwest Airlines         airlines/custom/WN.svg
+
+CURATED REMOTE VECTOR CANDIDATES — 76 airline codes:
+  First try logo.svg, then icon.svg; a candidate is NOT an installed logo.
+  Actual source availability and current branding require live verification.
+  6E  Indigo
+  A3  Aegean Airlines
+  AH  Air Algerie
+  AI  Air India
+  AK  Airasia
+  AM  Aeromexico
+  AR  Aerolineas Argentinas
+  AS  Alaska Airlines
+  AT  Royal Air Maroc
+  AV  Avianca
+  AY  Finnair
+  B6  Jetblue Airways
+  BI  Royal Brunei Airlines
+  BR  Eva Air
+  BT  Airbaltic
+  CA  Air China
+  CM  Copa Airlines
+  CX  Cathay Pacific
+  CZ  China Southern Airlines
+  EI  Aer Lingus
+  EN  Air Dolomiti
+  EW  Eurowings
+  EY  Etihad Airways
+  FI  Icelandair
+  FJ  Fiji Airways
+  FR  Ryanair
+  FY  Firefly
+  GA  Garuda Indonesia
+  HV  Transavia
+  IB  Iberia
+  J2  Azerbaijan Airlines
+  JQ  Jetstar
+  JU  Air Serbia
+  JX  Starlux Airlines
+  KC  Air Astana
+  KQ  Kenya Airways
+  KU  Kuwait Airways
+  LA  Latam Airlines
+  LO  Lot Polish Airlines
+  LX  Swiss
+  MF  Xiamenair
+  MH  Malaysia Airlines
+  MK  Air Mauritius
+  MM  Peach Aviation
+  NH  All Nippon Airways
+  NZ  Air New Zealand
+  OZ  Asiana Airlines
+  PG  Bangkok Airways
+  PR  Philippine Airlines
+  QF  Qantas
+  QH  Bamboo Airways
+  QP  Akasa Air
+  QR  Qatar Airways
+  RC  Atlantic Airways
+  RO  Tarom
+  SK  Scandinavian Airlines
+  SN  Brussels Airlines
+  SV  Saudia
+  TG  Thai Airways
+  TP  Tap Air Portugal
+  TR  Scoot
+  TS  Air Transat
+  TW  Tway Air
+  UA  United Airlines
+  UB  Myanmar National Airlines
+  UO  Hk Express
+  UX  Air Europa
+  VA  Virgin Australia
+  VJ  Vietjet Air
+  VN  Vietnam Airlines
+  VS  Virgin Atlantic
+  W6  Wizz Air
+  WS  Westjet
+  WY  Oman Air
+  XY  Flynas
+  ZB  Air Albania
+
+EXTENDED COVERAGE:
+  An additional remote third-party IATA→ICAO PNG catalog is queried on demand.
+  Supported codes depend on upstream catalog and assets, and a 2nd PNG source is tried.
+  Images with insufficient resolution or unusable alpha crops are not displayed.
+  Any missing asset leaves the airline name plus a quiet code identity, not an empty slot.
+
+IMPORTANT DISTINCTION:
+  A resolved flight number and an available authentic airline trademark are separate checks.
+  Neither worldwide live-flight coverage nor every authentic airline mark is guaranteed.
+  Actual flight matching requires supported Aviationstack API data and network access.
+
+SOURCES AND RIGHTS:
+  American Airlines: Simple Icons vector, colored #0078D2.
+  Other bundled vectors: Soaring Symbols SVG icon artwork.
+  Other curated SVG sources: https://github.com/soaring-symbols/soaring-symbols
+  Raster identity catalog: https://github.com/imgmongelli/airlines-logos-dataset
+  Airline marks belong to their respective trademark holders.

@@ -1,0 +1,34 @@
+# DEVNOTE: Production-style Python packaging metadata. Pin runtime dependencies deliberately; quality tools remain optional.
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linguist-x-passenger"
+version = "0.78.0"
+description = "Linguist-X passenger application and guest gateway contract"
+requires-python = ">=3.11"
+dependencies = ["starlette==0.50.0", "uvicorn==0.48.0", "redis==6.1.0"]
+
+[project.optional-dependencies]
+quality = ["pytest>=8,<10", "httpx>=0.27,<1", "coverage>=7,<8", "ruff>=0.13,<1", "bandit>=1.8,<2", "pip-audit>=2,<3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.coverage.run]
+branch = true
+source = ["run", "integration_bridge", "fixture_gateway", "runtime_security", "passenger_asgi"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.setuptools]
+py-modules = ["run", "start", "start_asgi", "integration_bridge", "fixture_gateway", "runtime_security", "app_logging", "passenger_asgi", "shared_guest_store", "sync_progress"]

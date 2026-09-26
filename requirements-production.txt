@@ -1,0 +1,5 @@
+# DEVNOTE: Minimal pinned runtime set for passenger_asgi.py. Change versions only with tests/security review.
+# Explicitly pinned ASGI runtime versions; resolve/hash-lock for the chosen target platform.
+starlette==0.50.0
+uvicorn==0.48.0
+redis==6.1.0

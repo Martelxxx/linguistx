@@ -1,0 +1,447 @@
+{
+  "sources": {
+    "bundled": "14 shipped local SVG assets, including American, Delta and Korean Air",
+    "vector": "Curated SVG logo.svg followed by icon.svg from Soaring Symbols, with a Simple Icons source for AA",
+    "raster": "Third-party raster catalogs, rejected if too small for the device",
+    "fallback": "Flight code rendered as text, NOT a replacement for the airline trademark"
+  },
+  "bundled": [
+    "AA",
+    "AC",
+    "AF",
+    "BA",
+    "DL",
+    "EK",
+    "ET",
+    "JL",
+    "KE",
+    "KL",
+    "LH",
+    "SQ",
+    "TK",
+    "WN"
+  ],
+  "svg_candidates": {
+    "A3": "aegean-airlines",
+    "EI": "aer-lingus",
+    "AR": "aerolineas-argentinas",
+    "AM": "aeromexico",
+    "ZB": "air-albania",
+    "AH": "air-algerie",
+    "KC": "air-astana",
+    "AC": "air-canada",
+    "CA": "air-china",
+    "EN": "air-dolomiti",
+    "UX": "air-europa",
+    "AF": "air-france",
+    "AI": "air-india",
+    "MK": "air-mauritius",
+    "NZ": "air-new-zealand",
+    "JU": "air-serbia",
+    "TS": "air-transat",
+    "AK": "airasia",
+    "BT": "airbaltic",
+    "QP": "akasa-air",
+    "AS": "alaska-airlines",
+    "NH": "all-nippon-airways",
+    "OZ": "asiana-airlines",
+    "RC": "atlantic-airways",
+    "AV": "avianca",
+    "J2": "azerbaijan-airlines",
+    "QH": "bamboo-airways",
+    "PG": "bangkok-airways",
+    "BA": "british-airways",
+    "SN": "brussels-airlines",
+    "CX": "cathay-pacific",
+    "CZ": "china-southern-airlines",
+    "CM": "copa-airlines",
+    "EK": "emirates",
+    "ET": "ethiopian-airlines",
+    "EY": "etihad-airways",
+    "EW": "eurowings",
+    "BR": "eva-air",
+    "FJ": "fiji-airways",
+    "AY": "finnair",
+    "FY": "firefly",
+    "XY": "flynas",
+    "GA": "garuda-indonesia",
+    "UO": "hk-express",
+    "IB": "iberia",
+    "FI": "icelandair",
+    "6E": "indigo",
+    "JL": "japan-airlines",
+    "B6": "jetblue-airways",
+    "JQ": "jetstar",
+    "KQ": "kenya-airways",
+    "KL": "klm",
+    "KE": "korean-air",
+    "KU": "kuwait-airways",
+    "LA": "latam-airlines",
+    "LO": "lot-polish-airlines",
+    "LH": "lufthansa",
+    "MH": "malaysia-airlines",
+    "UB": "myanmar-national-airlines",
+    "WY": "oman-air",
+    "MM": "peach-aviation",
+    "PR": "philippine-airlines",
+    "QF": "qantas",
+    "QR": "qatar-airways",
+    "AT": "royal-air-maroc",
+    "BI": "royal-brunei-airlines",
+    "FR": "ryanair",
+    "SV": "saudia",
+    "SK": "scandinavian-airlines",
+    "TR": "scoot",
+    "SQ": "singapore-airlines",
+    "WN": "southwest-airlines",
+    "JX": "starlux-airlines",
+    "LX": "swiss",
+    "TP": "tap-air-portugal",
+    "RO": "tarom",
+    "TG": "thai-airways",
+    "HV": "transavia",
+    "TK": "turkish-airlines",
+    "TW": "tway-air",
+    "UA": "united-airlines",
+    "VJ": "vietjet-air",
+    "VN": "vietnam-airlines",
+    "VS": "virgin-atlantic",
+    "VA": "virgin-australia",
+    "WS": "westjet",
+    "W6": "wizz-air",
+    "MF": "xiamenair",
+    "DL": "delta-air-lines",
+    "AA": "american-airlines"
+  },
+  "seed": {
+    "AA": {
+      "icao": "AAL",
+      "name": "American Airlines"
+    },
+    "UA": {
+      "icao": "UAL",
+      "name": "United Airlines"
+    },
+    "DL": {
+      "icao": "DAL",
+      "name": "Delta Air Lines"
+    },
+    "WN": {
+      "icao": "SWA",
+      "name": "Southwest Airlines"
+    },
+    "FX": {
+      "icao": "FDX",
+      "name": "FedEx"
+    },
+    "CZ": {
+      "icao": "CSN",
+      "name": "China Southern Airlines"
+    },
+    "MU": {
+      "icao": "CES",
+      "name": "China Eastern Airlines"
+    },
+    "1I": {
+      "icao": "EJA",
+      "name": "NetJets"
+    },
+    "CA": {
+      "icao": "CCA",
+      "name": "Air China"
+    },
+    "FR": {
+      "icao": "RYR",
+      "name": "Ryanair"
+    },
+    "TK": {
+      "icao": "THY",
+      "name": "Turkish Airlines"
+    },
+    "U2": {
+      "icao": "EZY",
+      "name": "easyJet"
+    },
+    "LH": {
+      "icao": "DLH",
+      "name": "Lufthansa"
+    },
+    "AC": {
+      "icao": "ACA",
+      "name": "Air Canada"
+    },
+    "6E": {
+      "icao": "IGO",
+      "name": "IndiGo"
+    },
+    "AS": {
+      "icao": "ASA",
+      "name": "Alaska Airlines"
+    },
+    "B6": {
+      "icao": "JBU",
+      "name": "JetBlue Airways"
+    },
+    "BA": {
+      "icao": "BAW",
+      "name": "British Airways"
+    },
+    "LA": {
+      "icao": "LAN",
+      "name": "LATAM Airlines"
+    },
+    "5X": {
+      "icao": "UPS",
+      "name": "UPS"
+    },
+    "EK": {
+      "icao": "UAE",
+      "name": "Emirates"
+    },
+    "QF": {
+      "icao": "QFA",
+      "name": "Qantas"
+    },
+    "QR": {
+      "icao": "QTR",
+      "name": "Qatar Airways"
+    },
+    "AF": {
+      "icao": "AFR",
+      "name": "Air France"
+    },
+    "NH": {
+      "icao": "ANA",
+      "name": "All Nippon Airways"
+    },
+    "AK": {
+      "icao": "AXM",
+      "name": "AirAsia"
+    },
+    "HU": {
+      "icao": "CHH",
+      "name": "Hainan Airlines"
+    },
+    "ZH": {
+      "icao": "CSZ",
+      "name": "Shenzhen Airlines"
+    },
+    "D0": {
+      "icao": "DHK",
+      "name": "DHL"
+    },
+    "AD": {
+      "icao": "AZU",
+      "name": "Azul Airlines"
+    },
+    "NK": {
+      "icao": "NKS",
+      "name": "Spirit Airlines"
+    },
+    "3U": {
+      "icao": "CSC",
+      "name": "Sichuan Airlines"
+    },
+    "MF": {
+      "icao": "CXA",
+      "name": "Xiamen Air"
+    },
+    "CX": {
+      "icao": "CPA",
+      "name": "Cathay Pacific"
+    },
+    "W6": {
+      "icao": "WZZ",
+      "name": "Wizz Air"
+    },
+    "SU": {
+      "icao": "AFL",
+      "name": "Aeroflot"
+    },
+    "KL": {
+      "icao": "KLM",
+      "name": "KLM"
+    },
+    "KE": {
+      "icao": "KAL",
+      "name": "Korean Air"
+    },
+    "WS": {
+      "icao": "WJA",
+      "name": "WestJet"
+    },
+    "SQ": {
+      "icao": "SIA",
+      "name": "Singapore Airlines"
+    },
+    "SV": {
+      "icao": "SVA",
+      "name": "Saudia"
+    },
+    "AM": {
+      "icao": "AMX",
+      "name": "Aeromexico"
+    },
+    "JL": {
+      "icao": "JAL",
+      "name": "Japan Airlines"
+    },
+    "AV": {
+      "icao": "AVA",
+      "name": "Avianca"
+    },
+    "SC": {
+      "icao": "CDG",
+      "name": "Shandong Airlines"
+    },
+    "G3": {
+      "icao": "GLO",
+      "name": "GOL"
+    },
+    "FV": {
+      "icao": "SDM",
+      "name": "Rossiya"
+    },
+    "SK": {
+      "icao": "SAS",
+      "name": "SAS"
+    },
+    "G4": {
+      "icao": "AAY",
+      "name": "Allegiant Air"
+    },
+    "F9": {
+      "icao": "FFT",
+      "name": "Frontier"
+    },
+    "VY": {
+      "icao": "VLG",
+      "name": "Vueling"
+    },
+    "A8": {
+      "icao": "AMF",
+      "name": "Ameriflight"
+    },
+    "ET": {
+      "icao": "ETH",
+      "name": "Ethiopian Airlines"
+    },
+    "Y4": {
+      "icao": "VOI",
+      "name": "Volaris"
+    },
+    "IB": {
+      "icao": "IBE",
+      "name": "Iberia"
+    },
+    "9C": {
+      "icao": "CQH",
+      "name": "Spring Airlines"
+    },
+    "X3": {
+      "icao": "TUI",
+      "name": "TUI fly"
+    },
+    "JT": {
+      "icao": "LNI",
+      "name": "Lion Air"
+    },
+    "AI": {
+      "icao": "AIC",
+      "name": "Air India"
+    },
+    "HV": {
+      "icao": "TRA",
+      "name": "Transavia"
+    },
+    "JQ": {
+      "icao": "JST",
+      "name": "Jetstar"
+    },
+    "NZ": {
+      "icao": "ANZ",
+      "name": "Air New Zealand"
+    },
+    "EW": {
+      "icao": "EWG",
+      "name": "Eurowings"
+    },
+    "9K": {
+      "icao": "KAP",
+      "name": "Cape Air"
+    },
+    "LS": {
+      "icao": "EXS",
+      "name": "Jet2"
+    },
+    "S7": {
+      "icao": "SBI",
+      "name": "S7 Airlines"
+    },
+    "FM": {
+      "icao": "CSH",
+      "name": "Shanghai Airlines"
+    },
+    "TP": {
+      "icao": "TAP",
+      "name": "TAP Air Portugal"
+    },
+    "VJ": {
+      "icao": "VJC",
+      "name": "VietJet Air"
+    },
+    "VN": {
+      "icao": "HVN",
+      "name": "Vietnam Airlines"
+    },
+    "VA": {
+      "icao": "VOZ",
+      "name": "Virgin Australia"
+    },
+    "PC": {
+      "icao": "PGT",
+      "name": "Pegasus Airlines"
+    },
+    "ID": {
+      "icao": "BTK",
+      "name": "Batik Air"
+    },
+    "JD": {
+      "icao": "CBJ",
+      "name": "Capital Airlines"
+    },
+    "CI": {
+      "icao": "CAL",
+      "name": "China Airlines"
+    },
+    "EY": {
+      "icao": "ETD",
+      "name": "Etihad Airways"
+    },
+    "BR": {
+      "icao": "EVA",
+      "name": "EVA Air"
+    },
+    "HO": {
+      "icao": "DKH",
+      "name": "Juneyao Air"
+    },
+    "LX": {
+      "icao": "SWR",
+      "name": "Swiss"
+    },
+    "OZ": {
+      "icao": "AAR",
+      "name": "Asiana Airlines"
+    },
+    "PR": {
+      "icao": "PAL",
+      "name": "Philippine Airlines"
+    },
+    "FZ": {
+      "icao": "FDB",
+      "name": "flydubai"
+    }
+  },
+  "note": "14 SVG assets ship locally. Remaining 76 curated code entries are remote candidates, not guaranteed current or available. If no acceptable airline logo exists, the interface shows a neutral code identity beside the airline name. This is not a fake logo."
+}

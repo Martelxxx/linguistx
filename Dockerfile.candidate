@@ -1,0 +1,17 @@
+# DEVNOTE: Deployment candidate, not scale certification. Keep non-root execution and external secret injection.
+# Production-stack integration candidate, NOT evidence of multi-replica scale.
+FROM python:3.13-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 LX_ENV=production LX_NO_SETUP=1 PORT=8080
+WORKDIR /app
+COPY requirements-production.txt .
+RUN python -m pip install --no-cache-dir -r requirements-production.txt
+COPY . /app
+RUN useradd --uid 10001 --create-home linguistx && \
+    mkdir -p /app/audio_cache /app/.airline-cache && \
+    chown -R 10001:10001 /app/audio_cache /app/.airline-cache
+USER 10001
+EXPOSE 8080
+# Set LX_PUBLIC_URL to the real HTTPS origin and inject real secrets at deployment.
+# Conservative one-worker default; a configured TLS Redis store allows multi-worker
+# testing, but replica capacity is not yet certified.
+CMD ["uvicorn", "passenger_asgi:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1", "--proxy-headers", "--no-access-log"]
