@@ -1,0 +1,45 @@
+name: Bootstrap Linguist-X v78
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Linguist-X_Passenger_v78_Wordly_Splash_Morph.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Expand release package into repository root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .bootstrap-v78
+          mkdir .bootstrap-v78
+          unzip -q Linguist-X_Passenger_v78_Wordly_Splash_Morph.zip -d .bootstrap-v78
+          cp -a .bootstrap-v78/Linguist-X_Passenger_v78_Wordly_Splash_Morph/. .
+          rm -rf .bootstrap-v78
+          rm -f Linguist-X_Passenger_v78_Wordly_Splash_Morph.zip
+          rm -f .github/workflows/bootstrap-v78.yml
+
+      - name: Commit complete v78 codebase
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No bootstrap changes to commit."
+            exit 0
+          fi
+          git commit -m "Import Linguist-X Passenger v78 complete codebase"
+          git push origin HEAD:main
