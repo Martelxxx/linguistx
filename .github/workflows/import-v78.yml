@@ -1,0 +1,45 @@
+name: Import Linguist-X Passenger v78
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.bootstrap-v78/**'
+
+permissions:
+  contents: write
+
+jobs:
+  import-v78:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out bootstrap commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and verify v78 release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .bootstrap-v78/chunk*.txt | base64 --decode > /tmp/linguistx-v78.zip
+          echo "9644c5409fd5b904d98178522fb1a9ef96c954d663c32cae2f5284667e9d1c5a  /tmp/linguistx-v78.zip" | sha256sum -c -
+          unzip -q /tmp/linguistx-v78.zip -d /tmp/linguistx-v78
+
+      - name: Replace bootstrap payload with the complete v78 codebase
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -a /tmp/linguistx-v78/Linguist-X_Passenger_v78_Wordly_Splash_Morph/. .
+          rm -rf .bootstrap-v78
+          rm -f .github/workflows/import-v78.yml
+
+      - name: Commit complete codebase to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import Linguist-X Passenger v78 complete codebase"
+          git push origin HEAD:main
