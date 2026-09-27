@@ -29,6 +29,8 @@ SETTINGS = read_settings()
 FILES = {
     '/manifest.webmanifest': ('manifest.webmanifest', 'application/manifest+json'),
     '/sw.js': ('sw.js', 'application/javascript; charset=utf-8'),
+    '/wayfinder.css': ('wayfinder.css', 'text/css; charset=utf-8'),
+    '/wayfinder.js': ('wayfinder.js', 'application/javascript; charset=utf-8'),
     '/icon-192.png': ('icon-192.png', 'image/png'),
     '/icon-512.png': ('icon-512.png', 'image/png'),
     '/icon-180.png': ('icon-180.png', 'image/png'),

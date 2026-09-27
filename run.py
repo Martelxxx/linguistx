@@ -28,6 +28,8 @@ from urllib.request import Request, urlopen
 
 HERE = Path(__file__).resolve().parent
 KEY_FILE = HERE / '.env'
+# Stable, per-user credentials are loaded only in non-production runtimes.
+from local_service_setup import read_user_keys, save_user_keys
 VALID_KEYS = ('AVIATIONSTACK_KEY','OPENAI_API_KEY','WEATHERAPI_KEY')
 
 def _valid(value: str) -> bool:
@@ -49,34 +51,40 @@ def _read_env(content: str) -> dict[str,str]:
     return values
 
 def _local_config() -> dict[str,str]:
-    """Load optional local provider keys from environment/current .env and, only in nonproduction interactive runs, offer one-time hidden entry."""
-    values={k:os.getenv(k,'').strip() for k in VALID_KEYS if _valid(os.getenv(k,''))}
-    if not SETTINGS.production and KEY_FILE.exists():
-        values.update({k:v for k,v in _read_env(KEY_FILE.read_text(encoding='utf-8')).items() if k not in values})
-    missing=set(VALID_KEYS)-set(values)
-    if missing and sys.stdin.isatty() and os.getenv('LX_NO_SETUP')!='1':
-        print('One-time setup: enter any missing test keys. Input is hidden and stored only on this Mac.',flush=True)
+    """Load environment/current .env keys and optionally enter missing ones.
+
+    DEVNOTE (v79): Never persist environment-injected secrets to .env. Only
+    locally typed values are persisted. The one-command start.py launcher
+    now handles local hidden entry itself and passes LX_NO_SETUP=1 here.
+    Direct run.py retains its original interactive fallback.
+    """
+    values = {k: os.getenv(k, '').strip() for k in VALID_KEYS if _valid(os.getenv(k, ''))}
+    if not SETTINGS.production:
+        # Environment overrides persisted defaults. The HOME store wins over an
+        # old per-release .env; both remain entirely server-side.
+        for k, v in read_user_keys().items():
+            values.setdefault(k, v)
+        if KEY_FILE.exists():
+            for k, v in _read_env(KEY_FILE.read_text(encoding='utf-8')).items():
+                values.setdefault(k, v)
+    missing = set(VALID_KEYS) - set(values)
+    entered = {}
+    if missing and sys.stdin.isatty() and os.getenv('LX_NO_SETUP') != '1':
+        print('One-time setup: enter any missing keys. Input is hidden and stored locally.', flush=True)
         for key in VALID_KEYS:
             if key in missing:
-                try: entry=getpass.getpass(key+' (press Enter to skip): ').strip()
-                except (EOFError,KeyboardInterrupt): entry=''
-                if _valid(entry):values[key]=entry
-    if not SETTINGS.production and values and (not KEY_FILE.exists() or _read_env(KEY_FILE.read_text(encoding='utf-8')) != {k:v for k,v in values.items() if k in VALID_KEYS}):
-        # Save supported keys with owner-only permissions. Never include them in distributed ZIP.
+                try:
+                    entry = getpass.getpass(key + ' (press Enter to skip): ').strip()
+                except (EOFError, KeyboardInterrupt):
+                    entry = ''
+                if _valid(entry):
+                    values[key] = entry
+                    entered[key] = entry
+    if not SETTINGS.production and entered:
         try:
-            # Preserve explicitly configured gateway values and comments when the
-            # older optional flight/voice setup refreshes its three managed keys.
-            preserved=[]
-            if KEY_FILE.is_file():
-                for line in KEY_FILE.read_text(encoding='utf-8').splitlines():
-                    key=line.split('=',1)[0].strip()
-                    if key not in VALID_KEYS:preserved.append(line)
-            with os.fdopen(os.open(KEY_FILE,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600),'w',encoding='utf-8') as file:
-                if preserved:file.write('\n'.join(preserved)+'\n')
-                for key in VALID_KEYS:
-                    if key in values:file.write(f'{key}={values[key]}\n')
-            os.chmod(KEY_FILE,0o600)
-        except OSError: print('Could not save .env; using keys for this run only.',flush=True)
+            save_user_keys(entered)
+        except (OSError, ValueError):
+            print('Could not save private credentials; using locally entered keys for this run only.', flush=True)
     return values
 
 SETTINGS = read_settings()
@@ -985,6 +993,8 @@ class Handler(BaseHTTPRequestHandler):
         static_files = {
             '/manifest.webmanifest': ('manifest.webmanifest', 'application/manifest+json'),
             '/sw.js': ('sw.js', 'application/javascript; charset=utf-8'),
+            '/wayfinder.css': ('wayfinder.css', 'text/css; charset=utf-8'),
+            '/wayfinder.js': ('wayfinder.js', 'application/javascript; charset=utf-8'),
             '/icon-192.png': ('icon-192.png', 'image/png'),
             '/icon-512.png': ('icon-512.png', 'image/png'),
             '/icon-180.png': ('icon-180.png', 'image/png'),
@@ -1060,7 +1070,7 @@ if __name__ == '__main__':
     server = ThreadingHTTPServer((host, PORT), Handler)
     print(f'Linguist-X testing app: http://127.0.0.1:{PORT}')
     print('Aviationstack: '+('configured' if API_KEY else 'MISSING')+' | OpenAI sample voice: '+('configured' if OPENAI_KEY else 'MISSING')+' | WeatherAPI: '+('configured' if WEATHER_KEY else 'MISSING'))
-    if not API_KEY or not OPENAI_KEY or not WEATHER_KEY: print('To configure a missing service, restart in Terminal to enter its key or add it to .env.')
+    if not API_KEY or not OPENAI_KEY or not WEATHER_KEY: print('To configure a missing service, use python3 start.py --configure once; it is retained across upgrades.')
     if host == '0.0.0.0': print('LAN mode enabled: open http://YOUR_MAC_IP:'+str(PORT)+' on your phone, same Wi-Fi.')
     print('Translation integration: '+('gateway configured' if GATEWAY.configured() else 'no gateway configured')+' | starts in DEMO mode.')
     print('Flight lookups are cached 5 minutes. OpenAI sample voices are cached permanently per text, language, model and voice.')

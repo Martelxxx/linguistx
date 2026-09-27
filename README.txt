@@ -1,3 +1,256 @@
+v92: Compact reference-proportioned gate card. Gate typography scales to its own width,
+not the browser viewport. Guide Me stays fully inside a distinct lower glass row,
+with the compass icon and contrasting separator. No gate tooltip or corner arrow.
+
+Run python3 start.py. The private persistent-key setup is preserved. Keep this
+personalized ZIP private; do not upload it to GitHub or public hosting.
+
+Independent browser checks: 320 / 375 / 390 / 740 / 824 / 1100 px widths,
+2–6 character gate labels, no clipping/overlap, and direct Guide Me opening.
+Hardware compass testing still requires a real phone.
+
+----- PREVIOUS RELEASE NOTES -----
+v91: Clean two-section Gate card with visible separator and Guide Me icon. No gate popup.
+Run python3 start.py; durable private credentials are unchanged. Keep this ZIP private.
+
+LINGUIST-X v88 — PERSISTENT AVIATIONSTACK CREDENTIAL UPDATE
+
+Your Aviationstack credential has been replaced in this PRIVATE release's
+one-time setup file. Your existing OpenAI and WeatherAPI credentials are
+unchanged. The first `python3 start.py` launch automatically installs the
+updated values to ~/.linguist-x/provider_keys.env with private permissions,
+overwriting the previously saved Aviationstack credential. The loose setup
+file is then deleted. Further launches and future Linguist-X versions read
+the saved credentials; no repeat key entry is needed.
+
+Extract this ZIP to a new directory, open Terminal in the extracted
+Linguist-X folder, then run: python3 start.py
+
+Explicit AVIATIONSTACK_KEY environment variables override local saved keys.
+If you previously exported an outdated value in your shell, unset it before
+launch. Your existing v87 flight, Gate → Guide Me, Wordly, and translation
+presentation files are unchanged. No provider request was made during build.
+
+PRIVATE RELEASE: this personalized ZIP contains live provider credentials in
+private_provider_keys.py. Do not publish, share, commit, or deploy the ZIP.
+The one-time setup file is excluded from version control and the public
+release integrity manifest.
+
+Verify locally: python3 quality/verify_v88.py
+
+----- PREVIOUS RELEASE NOTES -----
+
+LINGUIST-X v87 — REFERENCE GATE CARD, ONE-TAP GUIDE ME
+
+The Live flight card now carries the reference-matched two-tier glass gate tile:
+CURRENT GATE and the large gate numeral above a full-width, subtly divided
+Guide Me action, with a circular navigation icon and a small right chevron.
+No top-right arrow, detached popup, or in-app reconfirmation. The gate tile
+is already expanded when Live opens. A tap on Guide Me directly opens the
+existing compass/camera lens; Back restores the two-tier tile.
+
+The flight/weather, Wordly launch, passenger orb, inbox, settings, local
+service recovery, and version-84 permanent private-key installer are carried
+forward. Screens outside the gate use the existing design.
+
+RUN
+  python3 start.py
+  Open http://127.0.0.1:8765/
+
+Visual acceptance: screenshots at 390×844, 410×900, and 320×600. The gate
+row and flight information stay legible and separate, including B34 and C9.
+The Guide Me lens still uses GPS and compass to show an approximate, straight-
+line bearing to the Ashburn Metro reference point. This is not indoor routing.
+
+Verify: python3 quality/verify_v87.py
+The enclosed personalized credential bootstrap is PRIVATE. Never commit or
+share this ZIP. On first startup the keys are copied to the local user store
+and the loose bootstrap file is removed.
+
+----- PREVIOUS RELEASE NOTES -----
+
+LINGUIST-X v86 — THE GATE CARD YOU APPROVED
+
+This release replaces the earlier disconnected popup presentation with an expansion of
+THE EXISTING GATE TILE inside the Live flight card. Its top-right arrow is gone. Tap the
+card to reveal a bottom Guide Me action on the same glass surface; tap Guide Me to open
+the lens immediately, without a second in-app confirmation.
+
+The existing weather/glass flight background and Wordly splash are preserved. The v83
+compass/location reference lens is unchanged. Ashburn Metro is a straight-line test
+reference, not an indoor walking route. Physical phone compass testing remains open.
+
+Your v84 personalized credentials persist: run `python3 start.py` as before. This ZIP
+contains your PRIVATE one-time provider credential handoff and must not be shared,
+committed to GitHub, or uploaded to public hosting. On first run, the handoff installs
+into ~/.linguist-x/provider_keys.env and the extracted loose handoff is deleted.
+
+Verification: python3 quality/verify_v86.py. An updated service-worker cache ID and
+?v=86 asset URLs force a fresh gate stylesheet/script in supported installed clients.
+
+----- PREVIOUS RELEASE NOTES -----
+LINGUIST-X v84 — PERMANENT LOCAL PROVIDER CREDENTIALS
+
+Your flight lookup, weather, and OpenAI keys now persist across application
+re-extractions and version upgrades on this machine. The launcher uses a private,
+owner-only file at ~/.linguist-x/provider_keys.env, not a .env inside the ZIP.
+
+PERSONALIZED PRIVATE PACKAGE
+This personalized release contains a ONE-TIME credential handoff in
+private_provider_keys.py. Launch `python3 start.py` normally. On the first run,
+the launcher saves the credentials privately and deletes the loose handoff file.
+Subsequent versions automatically reuse the private settings; no repeat entry.
+The ZIP itself still includes your credentials and MUST NOT be shared, uploaded
+to GitHub or sent to anyone. If it has been shared, revoke and rotate the keys. A separate public-source build must exclude it.
+
+To rotate one or more keys: `python3 start.py --configure`. Press Enter to keep
+an existing key. Environment variables take precedence over saved credentials.
+Existing per-release .env keys are migrated automatically on a local launch.
+Production still requires injected deployment secrets and does not read HOME.
+
+The rest of the v83 Passenger UI, Guide Me and service behaviors are preserved.
+Neither the Python server nor the front-end prints raw credential values.
+Provider access, entitlement and live sensor accuracy have not been verified.
+
+----- PREVIOUS RELEASE NOTES -----
+LINGUIST-X v83 — NATIVE GUIDE ME / COMPASS REFINEMENT
+
+START
+  python3 start.py
+  Open the passenger application on a supported mobile device, in a secure context.
+  Open Live, tap the gate card, then tap Guide Me. No intermediate in-app confirmation.
+
+WHAT CHANGED FROM v82
+- The gate has no top-right expansion arrow; the only persistent hint is a quiet Guide Me caption.
+- The expanded gate has a single continuous glass surface with a divided Guide Me action.
+- The existing Live layout, Wordly splash, and other passenger pages remain isolated.
+- The Guide Me lens keeps the existing atmospheric weather source and glass language.
+- The compass rose now turns relative to north when a reliable absolute heading exists.
+- The target arrow turns toward the reference location using a GPS bearing and device heading.
+- Screen rotation is accounted for, and tilt adds a restrained depth/parallax response.
+- If compass/location confidence is inadequate, the arrow is subdued rather than implying a direction.
+
+BOUNDARIES
+- Ashburn Metro in Virginia is a reference target ONLY, not the boarding gate.
+- Straight-line geographical bearing is NOT a pedestrian route and is not indoor wayfinding.
+- Position, compass heading, and camera permissions are controlled by the browser/operating system.
+- GPS and magnetometer accuracy cannot be established by automated tests or desktop simulation.
+- A browser must provide geolocation and reliable north-referenced orientation to show guidance.
+- Never treat a relative orientation angle alone as north.
+- No location/camera data is transmitted by the wayfinder.
+
+VALIDATION
+- python3 -m unittest discover -s tests -q
+- python3 quality/verify_v83.py
+- Physical phone tests are still needed: both phone orientations, changing heading,
+  loss of location/sensor access, and camera permission fallback.
+
+This ZIP contains the full existing Passenger application and local server.
+Keep the .env file private; no real service credentials are included.
+
+----- PREVIOUS RELEASE NOTES -----
+LINGUIST-X v81 — NATIVE GUIDE ME
+
+This is the original v80 package with the gate cue, expandable gate panel and
+Guide Me lens visually refined to match the established Passenger experience.
+The existing flight card and Home/Live/Wordly views are unchanged except for
+bumping the references to the isolated wayfinder assets.
+
+START: python3 start.py  |  http://127.0.0.1:8765/
+VERIFY: python3 quality/verify_v81.py
+QA: QA_RESULTS_v81.md
+
+Ashburn Metro is a test reference. GPS/compass bearing is straight-line only;
+this release does not provide an indoor airport walking route.
+
+----- PREVIOUS RELEASE NOTES -----
+LINGUIST-X v80 — GATE → GUIDE ME REFERENCE LENS
+
+VISUAL ENTRY
+From the Live flight card, tap the existing gate number. A small unobtrusive
+↗ cue and a one-time non-blocking hint explain the gesture. The gate expands
+into a matching glass action card; selecting Guide me smoothly opens a
+full-screen lens with a centered directional indicator and camera backdrop.
+The prior Home, flight, Live, and Wordly splash surfaces are not redesigned.
+Use Back/Escape to leave, and the sensor watches/camera stop automatically.
+
+WHAT THE REFERENCE DEMO ACTUALLY DOES
+The test destination is Ashburn Metro station, Virginia. With opt-in device
+location and compass, it calculates the straight-line bearing from the current
+phone position to a surveyed station reference coordinate. No QR code is
+needed. Without suitable sensors or permissions, use the explicit SIMULATED
+preview and rotate the virtual heading using +/-45 degree buttons.
+This DOES NOT locate gates indoors, infer corridor topology from signs, query
+Google Maps, provide pedestrian/accessible routes, find a station entrance,
+or recognize A3/A4/A5 using AI. The gate card is the UI launch point, not the
+navigation target. The lens clearly labels the bearing as NOT a walking route.
+
+TESTING AND SECURITY
+Run on a sensor-capable phone over HTTPS. A localhost-only desktop session
+may show the preview; a phone opening an insecure LAN-hosted local preview
+is not a secure context and is not a supported GPS/camera acceptance test.
+No camera frames or positions are sent, saved, or logged by the lens.
+Current release checks: python3 -m unittest discover -s tests -q;
+python3 quality/verify_v80.py. Older version-specific verifiers are historical.
+No external provider secrets are included in the ZIP.
+
+----- HISTORICAL RELEASE NOTES (v79 AND EARLIER) -----
+
+LINGUIST-X v79 — LOCAL SERVICE SETUP RESTORED (NO PASSENGER UI CHANGE)
+
+WHY THIS RELEASE EXISTS
+v78's start.py set LX_NO_SETUP=1 and unintentionally suppressed hidden key
+entry, leaving live flights, weather, demo speech/voice and optional AI vision
+unconfigured when a fresh v78 folder had no .env. v79 restores a private,
+one-time local setup before starting the same application server.
+
+START HERE — LOCAL TERMINAL ONLY
+  1. Extract the ZIP to a NEW folder; do not open HTML files via file://.
+  2. In Terminal: cd into the folder containing start.py.
+  3. Run: python3 start.py
+  4. If a key is missing, the Terminal asks privately for Aviationstack,
+     WeatherAPI and OpenAI keys. Paste a key and press Enter, or press Enter
+     to skip the optional service. Terminal input is hidden.
+  5. Open http://127.0.0.1:8765/ (stop an older server using this port first).
+  6. Check http://127.0.0.1:8765/api/status to see configuration booleans.
+
+ROTATE / REPLACE LOCAL CREDENTIALS
+  python3 start.py --configure
+Prompts privately for each key even when a valid entry already exists. Press
+Enter to retain an existing one; restart the server to load replacements.
+Only keys typed locally are written to the current folder's untracked .env
+with owner-only permissions. No live keys are included in this release ZIP,
+source code, frontend, test fixture, logs or GitHub repository. Keys from a
+shell environment can be used at runtime and are not copied into .env by the
+launcher. Never paste credentials into a public issue or chat.
+
+IF AN OPTIONAL SERVICE STILL FAILS
+- /api/status = false: key not loaded in this process; stop any old server,
+  re-run the new launcher and enter the replacement key.
+- /api/status = true: key is loaded, not proof that the provider accepted it.
+  HTTP 401/403, account entitlement, quota, network or billing can still fail.
+- Flight lookup: Aviationstack, server-to-provider HTTPS only; no insecure
+  HTTP downgrade is introduced. A plan-level HTTPS limitation requires a
+  compatible provider plan or approved HTTPS flight-data gateway.
+- Weather: WeatherAPI uses the destination airport code, may be unavailable
+  if the provider refuses the key or cannot resolve that airport.
+- Language selector: all six on-screen interface languages are bundled and
+  do NOT require API keys. Demo speech/voice/AI scan assistance uses OpenAI.
+  Live Wordly translation remains unconnected; the Integration fixture is
+  explicitly simulated test data, as in v78.
+
+APP PRESERVATION
+Both passenger-only.html and index.html are byte-for-byte unchanged from v78.
+The Wordly splash, Home experience, screen layout and the 10/10 prototype,
+1/32 contractual tracker ledger are unmodified. This is a LOCAL key-entry
+recovery, not a completed real-Wordly integration or production readiness signoff.
+
+VERIFY
+  python3 -m unittest discover -s tests -v
+  python3 quality/verify_v78.py
+  python3 quality/verify_v79.py
+
+----- HISTORIC V78 AND EARLIER RELEASE NOTES -----
 LINGUIST-X v78 — WORDLY SPLASH MORPH + DEVELOPER HANDOFF
 
 PURPOSE

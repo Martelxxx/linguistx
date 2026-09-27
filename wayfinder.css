@@ -1,0 +1,73 @@
+/* v91 lens: only the Guide Me full-screen scene.
+   Gate card styles are the single canonical gate-card.css. */
+/* Shared-element bloom: the existing gate card becomes the lens. */
+.lx-wayfinder-morph{position:absolute;z-index:94;pointer-events:none;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.99),rgba(222,236,247,.97));border:1px solid rgba(255,255,255,.9);box-shadow:0 15px 55px rgba(52,88,125,.13);will-change:left,top,width,height,border-radius,opacity}
+.lx-wayfinder-lens{position:absolute;inset:0;z-index:93;display:flex;flex-direction:column;isolation:isolate;overflow:hidden;color:#203751;background:linear-gradient(150deg,#f8fbff,#dce7f2 85%);font-family:inherit;opacity:1;--lx-tilt-shift-x:0px;--lx-tilt-shift-y:0px}
+.lx-wayfinder-lens[hidden]{display:none!important}
+.lx-wayfinder-scene{position:absolute;inset:-24px;z-index:0;background-image:var(--lx-wayfinder-scene,url('/weather/cloudy.webp'));background-size:cover;background-position:65% center;filter:blur(12px) saturate(.75) contrast(.87);opacity:.82;transform:scale(1.09);pointer-events:none;transition:opacity .6s ease,transform .5s ease}
+.lx-wayfinder-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:saturate(.8) contrast(.96);transition:opacity .65s ease}
+.lx-wayfinder-lens.has-camera .lx-wayfinder-video{opacity:.78}
+.lx-wayfinder-lens.has-camera .lx-wayfinder-scene{opacity:0}
+.lx-wayfinder-lens::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(248,251,255,.77) 0%,rgba(250,252,255,.51) 35%,rgba(234,243,253,.43) 58%,rgba(238,245,252,.85) 88%,rgba(241,247,254,.96) 100%)}
+.lx-wayfinder-lens::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse 80% 57% at 42% 46%,rgba(253,254,255,.44),transparent 80%)}
+.lx-wayfinder-ambient{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.75;background:radial-gradient(ellipse 64% 48% at 8% 19%,rgba(255,255,255,.58),transparent 75%),radial-gradient(ellipse 64% 46% at 94% 75%,rgba(141,188,226,.18),transparent 75%);transition:opacity .6s ease,transform .35s ease;transform:translate3d(calc(var(--lx-tilt-shift-x)*-.35),calc(var(--lx-tilt-shift-y)*-.35),0)}
+.lx-wayfinder-lens.has-camera .lx-wayfinder-ambient{opacity:.36}
+
+.lx-wayfinder-top,.lx-wayfinder-center,.lx-wayfinder-bottom{position:relative;z-index:3}
+.lx-wayfinder-top{flex:0 0 auto;display:flex;align-items:flex-start;gap:12px;padding:calc(18px + var(--safeT)) 16px 0}
+.lx-wayfinder-back{width:46px;height:46px;flex:0 0 auto;border-radius:50%;border:1px solid rgba(255,255,255,.94);background:linear-gradient(140deg,rgba(255,255,255,.94),rgba(235,244,254,.78));display:grid;place-items:center;box-shadow:0 7px 21px rgba(55,87,118,.1),inset 0 1px 0 #fff;color:#3f5b79;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.lx-wayfinder-back svg{width:18px;height:18px}
+.lx-wayfinder-header{flex:1;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px 14px 18px;border:1px solid rgba(255,255,255,.91);border-radius:28px;background:linear-gradient(138deg,rgba(255,255,255,.79),rgba(237,247,255,.7));box-shadow:0 11px 26px rgba(55,87,118,.085),inset 0 1px 0 #fff;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.lx-wayfinder-title{min-width:0;text-align:left}
+.lx-wayfinder-title b{display:block;font-size:10px;font-weight:790;letter-spacing:.15em;text-transform:uppercase;color:#647b95}
+.lx-wayfinder-title small{display:block;margin-top:6px;color:#234261;font-size:23px;font-weight:780;line-height:1.02;letter-spacing:-.06em;text-transform:none;white-space:normal;overflow-wrap:anywhere}
+.lx-wayfinder-title em{display:block;margin-top:5px;font-size:11px;color:#677e98;font-style:normal;line-height:1.25;letter-spacing:-.008em}
+.lx-wayfinder-mode{display:grid;place-items:center;width:66px;height:66px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.92);background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(231,242,252,.82));box-shadow:0 7px 18px rgba(46,86,127,.08),inset 0 1px 0 #fff;color:#2d4f74}
+.lx-wayfinder-mode svg{width:30px;height:30px}
+
+.lx-wayfinder-center{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px 18px 4px}
+.lx-wayfinder-dial{position:relative;width:min(74vw,324px,41dvh);height:min(74vw,324px,41dvh);min-width:180px;min-height:180px;max-width:324px;max-height:324px;border:1px solid rgba(255,255,255,.88);border-radius:50%;display:grid;place-items:center;isolation:isolate;background:radial-gradient(ellipse at 34% 24%,rgba(255,255,255,.72),rgba(242,248,253,.52) 38%,rgba(229,239,250,.34) 69%,rgba(220,233,246,.22) 100%);box-shadow:0 16px 42px rgba(51,84,120,.11),inset 0 1px 0 rgba(255,255,255,.96),inset 0 -1px 0 rgba(106,136,168,.14);backdrop-filter:blur(17px);-webkit-backdrop-filter:blur(17px);transform:translate3d(var(--lx-tilt-shift-x),var(--lx-tilt-shift-y),0);transition:transform .18s linear}
+.lx-wayfinder-dial::before,.lx-wayfinder-dial::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.38);pointer-events:none}
+.lx-wayfinder-dial::before{inset:9%}
+.lx-wayfinder-dial::after{inset:28%}
+.lx-wayfinder-crosshair,.lx-wayfinder-crosshair::before,.lx-wayfinder-crosshair::after{position:absolute;content:'';background:rgba(255,255,255,.34);pointer-events:none}
+.lx-wayfinder-crosshair{inset:0;background:none}
+.lx-wayfinder-crosshair::before{left:50%;top:14%;bottom:14%;width:1px;transform:translateX(-50%)}
+.lx-wayfinder-crosshair::after{top:50%;left:14%;right:14%;height:1px;transform:translateY(-50%)}
+.lx-wayfinder-compass-rose{position:absolute;inset:0;pointer-events:none;transform:rotate(var(--lx-rose,0deg));transition:transform .22s ease-out}
+.lx-wayfinder-cardinal{position:absolute;font-size:15px;font-weight:760;letter-spacing:.04em;color:#47698d;text-shadow:0 1px 0 rgba(255,255,255,.52);--lx-cardinal-adjust:calc(0deg - var(--lx-rose,0deg))}
+.lx-wayfinder-cardinal.n{top:8%;left:50%;transform:translateX(-50%) rotate(var(--lx-cardinal-adjust))}
+.lx-wayfinder-cardinal.e{right:8%;top:50%;transform:translateY(-50%) rotate(var(--lx-cardinal-adjust))}
+.lx-wayfinder-cardinal.s{bottom:8%;left:50%;transform:translateX(-50%) rotate(var(--lx-cardinal-adjust))}
+.lx-wayfinder-cardinal.w{left:8%;top:50%;transform:translateY(-50%) rotate(var(--lx-cardinal-adjust))}
+.lx-wayfinder-arrow{position:absolute;left:50%;top:42%;width:51%;max-width:169px;transform:translate(-50%,-50%) rotate(var(--lx-bearing,0deg));transform-origin:50% 58%;transition:transform .22s ease-out;filter:drop-shadow(0 14px 22px rgba(37,78,115,.16))}
+.lx-wayfinder-arrow svg{display:block;width:100%;height:auto}
+.lx-wayfinder-lens[data-guidance="waiting"] .lx-wayfinder-arrow{opacity:.18;filter:grayscale(1) drop-shadow(0 8px 14px rgba(37,78,115,.07))}
+.lx-wayfinder-lens[data-guidance="waiting"] .lx-wayfinder-compass-rose{opacity:.54}
+.lx-wayfinder-distance-card{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;min-width:140px;padding:12px 16px 11px;border-radius:20px;background:linear-gradient(155deg,rgba(255,255,255,.53),rgba(236,244,252,.32));border:1px solid rgba(255,255,255,.68);box-shadow:0 7px 18px rgba(54,86,117,.07),inset 0 1px 0 rgba(255,255,255,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lx-wayfinder-distance-value{font-size:clamp(26px,5vw,38px);line-height:1;font-weight:790;letter-spacing:-.05em;color:#18365d;text-shadow:0 1px 0 rgba(255,255,255,.58)}
+.lx-wayfinder-distance-state{font-size:11px;font-weight:790;letter-spacing:.15em;text-transform:uppercase;color:#56708b}
+
+.lx-wayfinder-bottom{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 18px calc(20px + var(--safeB))}
+.lx-wayfinder-helper{width:min(100%,360px);display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.92);background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(235,244,253,.58));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 11px 26px rgba(55,87,118,.08),inset 0 1px 0 #fff;color:#40617f;text-align:center}
+.lx-wayfinder-helper-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;border-radius:50%;background:rgba(255,255,255,.42);color:#315879}
+.lx-wayfinder-helper-icon svg{width:17px;height:17px}
+.lx-wayfinder-helper-text{font-size:13px;line-height:1.35;font-weight:660;letter-spacing:-.01em}
+.lx-wayfinder-meta{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:28px}
+.lx-wayfinder-sensor-chip{display:inline-flex;align-items:center;justify-content:center;min-height:22px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.44);border:1px solid rgba(255,255,255,.6);color:#5b748f;font-size:10px;font-weight:710;letter-spacing:.08em;text-transform:uppercase}
+.lx-wayfinder-disclaimer{margin:0;color:#5d7893;font-size:10px;line-height:1.35;text-align:center;max-width:316px}
+
+.lx-wayfinder-lens.no-motion .lx-wayfinder-dial,.lx-wayfinder-lens.no-motion .lx-wayfinder-ambient{transition:none!important;transform:none!important}
+@media(max-height:720px){
+ .lx-wayfinder-top{padding-top:calc(14px + var(--safeT))}
+ .lx-wayfinder-header{padding:12px 14px 12px 16px}
+ .lx-wayfinder-title small{font-size:21px}
+ .lx-wayfinder-mode{width:58px;height:58px}
+ .lx-wayfinder-center{padding-top:10px}
+ .lx-wayfinder-distance-card{bottom:12%;min-width:128px;padding:10px 14px}
+ .lx-wayfinder-helper{padding:12px 16px}
+}
+@media(prefers-reduced-motion:reduce){
+ .lx-wayfinder-arrow,.lx-wayfinder-compass-rose,.lx-wayfinder-scene,.lx-wayfinder-video,.lx-wayfinder-ambient,.lx-wayfinder-dial{transition:none!important;animation:none!important}
+}
+#app.less-motion .lx-wayfinder-arrow,#app.less-motion .lx-wayfinder-scene,#app.less-motion .lx-wayfinder-video,#app.less-motion .lx-wayfinder-ambient,#app.less-motion .lx-wayfinder-dial{transition:none!important;animation:none!important}

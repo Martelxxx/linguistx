@@ -15,3 +15,6 @@ audio_cache/*
 !audio_cache/.gitkeep
 .airline-cache/
 *.zip
+
+# Personalized, credential-bearing one-time bootstrap; never commit or share.
+private_provider_keys.py

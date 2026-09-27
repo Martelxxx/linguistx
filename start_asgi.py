@@ -19,7 +19,7 @@ def main():
         import uvicorn
     except ImportError:
         raise SystemExit('ASGI dependencies missing. Run: python3 -m pip install -r requirements-production.txt') from None
-    print(f'v78 ASGI local test: http://127.0.0.1:{settings.port}/', flush=True)
+    print(f'v87 ASGI local test: http://127.0.0.1:{settings.port}/', flush=True)
     print('Demo + loopback test fixture; no live Wordly translation.', flush=True)
     uvicorn.run('passenger_asgi:app', host='127.0.0.1', port=settings.port,
                 workers=1, access_log=False, log_level='warning')

@@ -1,0 +1,234 @@
+/* Linguist-X Passenger v95 — proportion-corrected single-source gate component.
+   Canonical source. Embedded unchanged in both Passenger entrypoints at release time.
+   The glass tile is always two-tier; the destination label and controls exist in HTML.
+   Nothing is synthesized from JavaScript and no onboarding tooltip is used. */
+#live #flightBand {
+  min-height: 0;
+}
+#live #flightBand .flight-primary {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(10px, 2.4vw, 24px);
+}
+#live #flightBand .flight-primary .flight-left {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-top: 2px;
+}
+#live #lxGateAccess {
+  --lx-gate-ink: #1b395c;
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 31%;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  justify-items: stretch;
+  justify-content: stretch;
+  container: lx-gate / inline-size;
+  flex: 0 0 clamp(116px, 26%, 167px);
+  width: clamp(116px, 26%, 167px);
+  height: auto;
+  aspect-ratio: .91;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.99);
+  border-radius: clamp(22px, 4cqw, 30px);
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(239,246,254,.47);
+  box-shadow:
+    0 12px 26px rgba(37,70,107,.11),
+    0 0 0 1px rgba(124,151,183,.20),
+    inset 0 1px 0 rgba(255,255,255,.99),
+    inset 0 -1px 0 rgba(129,161,191,.12);
+  backdrop-filter: blur(18px) saturate(1.06);
+  -webkit-backdrop-filter: blur(18px) saturate(1.06);
+  color: var(--lx-gate-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow .3s ease, transform .3s cubic-bezier(.2,.78,.22,1);
+}
+#live #lxGateAccess::before { content: none; display: none; }
+#live #lxGateAccess::after { content: none; display: none; }
+#live #lxGateAccess:hover {
+  box-shadow: 0 15px 29px rgba(37,70,107,.14), 0 0 0 1px rgba(124,151,183,.23), inset 0 1px 0 #fff;
+}
+#live #lxGateAccess .lx-gate-optic {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(237,247,255,.31);
+}
+#live #lxGateAccess .lx-gate-optic::before {
+  background: linear-gradient(138deg, rgba(251,253,255,.88),rgba(240,247,255,.72) 56%,rgba(227,240,253,.81));
+}
+#live #lxGateAccess .lx-gate-main {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  padding: clamp(7px, 5.5cqw, 11px) clamp(7px, 6cqw, 12px) 0;
+  overflow: hidden;
+}
+#live #lxGateAccess #gateHeading {
+  display: block;
+  flex: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-size: var(--lx-gate-heading-fit, clamp(8px, 5.3cqw, 11.3px));
+  line-height: 1.12;
+  font-weight: 780;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #3d5773;
+  text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+#live #lxGateAccess .gate-viewport {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  padding: 3px 1px 0;
+}
+#live #lxGateAccess .gate-value,
+#live #lxGateAccess .gate-outgoing {
+  grid-area: 1 / 1;
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  color: #183557;
+  font-size: clamp(54px, 44cqw, 91px);
+  line-height: .92;
+  font-weight: 790;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,.74);
+  transform-origin: 50% 50%;
+}
+#live #lxGateAccess .gate-outgoing { position: absolute; opacity: 0; pointer-events: none; }
+#live #lxGateAccess[data-gate-length="4"] .gate-value,
+#live #lxGateAccess[data-gate-length="4"] .gate-outgoing { font-size: clamp(38px, 33cqw, 70px); }
+#live #lxGateAccess[data-gate-length="5"] .gate-value,
+#live #lxGateAccess[data-gate-length="5"] .gate-outgoing { font-size: clamp(30px, 26cqw, 55px); }
+#live #lxGateAccess[data-gate-length="6"] .gate-value,
+#live #lxGateAccess[data-gate-length="6"] .gate-outgoing { font-size: clamp(25px, 20cqw, 43px); }
+#live #lxGateAccess .lx-gate-guide-row {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: clamp(28px, 17cqw, 35px) minmax(0, 1fr) clamp(10px, 7cqw, 13px);
+  align-items: center;
+  column-gap: clamp(3px, 2.8cqw, 6px);
+  align-self: stretch;
+  justify-content: stretch;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 4px clamp(7px, 4.8cqw, 11px);
+  border: 0;
+  border-top: 1px solid rgba(121,154,190,.53);
+  border-radius: 0;
+  background: linear-gradient(180deg,rgba(246,251,255,.96),rgba(225,238,251,.94));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.92);
+  color: var(--lx-gate-ink);
+  cursor: pointer;
+  opacity: 1;
+  transform: none;
+  transition: background .3s ease;
+}
+/* Deliberate two-line separator: silver above, luminous rim below. */
+#live #lxGateAccess .lx-gate-guide-row::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: rgba(255,255,255,.99);
+  pointer-events: none;
+}
+#live #lxGateAccess .lx-gate-guide-row:hover {
+  background: linear-gradient(180deg,rgba(253,255,255,.99),rgba(235,244,254,.97));
+}
+#live #lxGateAccess .lx-gate-guide-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(29px, 17cqw, 35px);
+  height: clamp(29px, 17cqw, 35px);
+  border: 1px solid rgba(255,255,255,.99);
+  border-radius: 50%;
+  background: linear-gradient(148deg,rgba(255,255,255,.98),rgba(228,240,251,.94));
+  box-shadow: 0 4px 11px rgba(45,76,112,.105), inset 0 1px 0 rgba(255,255,255,.99);
+  color: #203e61;
+}
+#live #lxGateAccess .lx-gate-guide-icon svg { width: 53%; height: 53%; display: block; }
+#live #lxGateAccess .lx-gate-guide-label {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--lx-gate-action-fit, clamp(12.2px, 7cqw, 15px));
+  line-height: 1.1;
+  font-weight: 750;
+  letter-spacing: -.025em;
+  text-transform: none;
+  white-space: nowrap;
+  color: #1c395c;
+}
+#live #lxGateAccess .lx-gate-guide-chevron {
+  width: clamp(10px, 6.4cqw, 13px);
+  height: clamp(10px, 6.4cqw, 13px);
+  color: #315477;
+  justify-self: end;
+}
+#live #lxGateAccess .gate-previous[hidden] { display: none; }
+#live #lxGateAccess .gate-previous:not([hidden]) {
+  position: absolute;
+  z-index: 4;
+  top: calc(69% - 19px);
+  left: 10px;
+  right: 10px;
+  min-height: 0;
+  width: auto;
+  padding: 2px;
+  border-radius: 7px;
+  font-size: 8px;
+  line-height: 1.1;
+  color: #264e6d;
+  background: rgba(248,252,255,.90);
+}
+#live #lxGateAccess .lx-gate-guide-row:focus-visible,
+#live #lxGateAccess:focus-visible { outline: 2px solid #2581b3; outline-offset: 3px; }
+#live .flight-meta-row { margin-top: 6px; }
+@media (max-width: 375px) {
+  #live #flightBand .flight-primary { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #live #lxGateAccess, #live #lxGateAccess .lx-gate-guide-row { transition: none; }
+}
+#app.less-motion #live #lxGateAccess,
+#app.less-motion #live #lxGateAccess .lx-gate-guide-row { transition: none; }

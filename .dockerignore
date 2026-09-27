@@ -12,3 +12,5 @@ audio_cache/*
 .airline-cache
 node_modules
 dist
+# Do not bake personalized provider secrets into a container image.
+private_provider_keys.py

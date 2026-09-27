@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "linguist-x-passenger"
-version = "0.78.0"
+version = "0.84.0"
 description = "Linguist-X passenger application and guest gateway contract"
 requires-python = ">=3.11"
 dependencies = ["starlette==0.50.0", "uvicorn==0.48.0", "redis==6.1.0"]
@@ -31,4 +31,4 @@ source = ["run", "integration_bridge", "fixture_gateway", "runtime_security", "p
 show_missing = true
 
 [tool.setuptools]
-py-modules = ["run", "start", "start_asgi", "integration_bridge", "fixture_gateway", "runtime_security", "app_logging", "passenger_asgi", "shared_guest_store", "sync_progress"]
+py-modules = ["run", "start", "start_asgi", "local_service_setup", "integration_bridge", "fixture_gateway", "runtime_security", "app_logging", "passenger_asgi", "shared_guest_store", "sync_progress"]

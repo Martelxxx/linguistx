@@ -1,4 +1,4 @@
-name: Passenger v78 CI
+name: Passenger v95 source CI
 # DEVNOTE: CI is a release gate, not production acceptance. Keep no-network invariants and security scans mandatory.
 on:
   push:
@@ -19,11 +19,11 @@ jobs:
       - name: Compile Python
         run: python -m compileall -q .
       - name: Strict lint for hardened passenger modules
-        run: ruff check runtime_security.py app_logging.py passenger_asgi.py integration_bridge.py fixture_gateway.py shared_guest_store.py quality/verify_v78.py --select E4,E7,E9,F
+        run: ruff check runtime_security.py app_logging.py passenger_asgi.py integration_bridge.py fixture_gateway.py shared_guest_store.py local_service_setup.py quality/verify_v80.py --select E4,E7,E9,F
       - name: Run passenger regression and engineering boundaries
-        run: python -m pytest -q
+        run: python -m pytest -q tests
       - name: Baseline and security assertions
-        run: python quality/verify_v78.py
+        run: python quality/verify_repository.py
       - name: Python security scan (report; review findings before release)
         run: bandit -r . -x ./tests -ll
       - name: Dependency advisory scan

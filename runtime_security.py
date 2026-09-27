@@ -65,7 +65,7 @@ BASE_HEADERS = {
     'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'no-referrer',
     'X-Frame-Options': 'DENY',
-    'Permissions-Policy': 'camera=(self), microphone=(self), geolocation=()',
+    'Permissions-Policy': 'camera=(self), microphone=(self), geolocation=(self), accelerometer=(self), gyroscope=(self), magnetometer=(self)',
 }
 
 
