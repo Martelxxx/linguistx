@@ -18,7 +18,6 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
 
 LANGUAGES = frozenset(
     "en fr es zh ar pt de it ja ko hi ru tr nl pl vi id uk sv th".split()
