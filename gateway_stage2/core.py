@@ -243,6 +243,20 @@ class Gateway:
         self.journal = journal
         self.states = {s.session_id: "stopped" for s in sessions}
         self._seen: dict[str, deque[str]] = defaultdict(lambda: deque(maxlen=4096))
+        self._connect_times: deque[float] = deque()
+        self._connect_lock = asyncio.Lock()
+
+    async def limit_provider_connect(self) -> None:
+        """Stay below documented 20 Palabra WS connects per token per minute."""
+        async with self._connect_lock:
+            while True:
+                now = asyncio.get_running_loop().time()
+                while self._connect_times and now - self._connect_times[0] >= 60:
+                    self._connect_times.popleft()
+                if len(self._connect_times) < 18:
+                    self._connect_times.append(now)
+                    return
+                await asyncio.sleep(max(0.1, 60 - (now - self._connect_times[0])))
 
     def set_state(self, session_id: str, status: str, reason: str = "") -> None:
         self.states[session_id] = status
@@ -331,6 +345,7 @@ async def run_session(gateway: Gateway, session: Session, api_key: str, source_f
     while True:
         try:
             gateway.set_state(session.session_id, "connecting")
+            await gateway.limit_provider_connect()
             slug = uuid.uuid4().hex
             url = (f"wss://streaming.palabra.ai/streaming-api/{slug}/"
                    f"v1/speech-to-speech/stream?token={api_key}")
