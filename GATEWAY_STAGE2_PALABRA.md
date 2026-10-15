@@ -69,3 +69,7 @@ Note: LX_STAGE2_RUN is unset by default; translation will not auto-start. The se
 - [ ] Secure passenger delivery at volume, HA, and customer site/zone authorization tested.
 
 This source package is the Stage 2 development foundation, not the completed production appliance.
+
+## Voice assignment — 20 language trial (October 2026)
+
+All Palabra speech-generation targets now request custom voice ID `44948595-c29b-4fb6-839a-77b9884d0cb8` with `voice_cloning: false`. The Stage 2 gateway makes this identical selection for each configured output language. This replaces automatic `default_low` selection. The change does **not** prove that the voice is compatible with or intelligible in all 20 languages, and does not bypass the live voice QA and licensing release gates. No silent alternate voice is configured.
