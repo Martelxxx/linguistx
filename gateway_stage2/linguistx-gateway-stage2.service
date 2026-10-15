@@ -1,0 +1,23 @@
+[Unit]
+Description=Linguist-X Stage 2 candidate translation gateway
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=linguistx
+Group=linguistx
+WorkingDirectory=/opt/linguistx
+EnvironmentFile=/etc/linguistx/gateway.env
+ExecStart=/opt/linguistx/venv/bin/uvicorn gateway_stage2.app:app --host 127.0.0.1 --port 8789 --workers 1
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/linguistx
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
