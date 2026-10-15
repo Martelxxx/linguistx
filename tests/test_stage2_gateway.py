@@ -1,7 +1,5 @@
-import asyncio
 import base64
 import json
-from pathlib import Path
 
 import pytest
 from starlette.testclient import TestClient
