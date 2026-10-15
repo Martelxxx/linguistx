@@ -22,6 +22,7 @@ from pathlib import Path
 LANGUAGES = frozenset(
     "en fr es zh ar pt de it ja ko hi ru tr nl pl vi id uk sv th".split()
 )
+PALABRA_VOICE_ID = "44948595-c29b-4fb6-839a-77b9884d0cb8"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$")
 FRAME_BYTES = 15_360  # 320 ms * 24,000 Hz * 16-bit mono
 MAX_INPUTS = 64
@@ -224,7 +225,7 @@ def task_message(session: Session) -> dict:
                 "translations": [
                     {"target_language": out.language,
                      "translate_partial_transcriptions": False,
-                     "speech_generation": {"voice_id": "default_low"}}
+                     "speech_generation": {"voice_id": PALABRA_VOICE_ID, "voice_cloning": False}}
                     for out in session.outputs
                 ],
                 "allowed_message_types": [
