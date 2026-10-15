@@ -337,16 +337,41 @@ async def run_session(gateway: Gateway, session: Session, api_key: str, source_f
             async with websockets.connect(url, ping_interval=10, ping_timeout=30,
                                           max_size=2_000_000) as ws:
                 await ws.send(json.dumps(task_message(session)))
-                ack = json.loads(await asyncio.wait_for(ws.recv(), timeout=20))
-                if (ack.get("message_type") != "task_status"
-                        or ack.get("data", {}).get("command") != "set_task"
-                        or ack.get("data", {}).get("task_status") != "running"):
-                    raise RuntimeError("Palabra did not confirm a running translation task.")
+                # A connection may first receive current_task or warnings.
+                # Never stream audio before the running set_task acknowledgement.
+                for _ in range(12):
+                    ack = json.loads(await asyncio.wait_for(ws.recv(), timeout=20))
+                    if ack.get("message_type") == "error":
+                        raise RuntimeError("Palabra rejected source session setup.")
+                    if (ack.get("message_type") == "task_status"
+                            and ack.get("data", {}).get("command") == "set_task"):
+                        if ack.get("data", {}).get("task_status") != "running":
+                            raise RuntimeError("Palabra did not start the session.")
+                        break
+                else:
+                    raise RuntimeError("Palabra session setup not acknowledged.")
                 gateway.set_state(session.session_id, "active")
                 backoff = 1
-                async with asyncio.TaskGroup() as tasks:
-                    tasks.create_task(_receive(gateway, session, ws))
-                    tasks.create_task(_stream(session, ws, source_factory))
+                receiver = asyncio.create_task(_receive(gateway, session, ws))
+                producer = asyncio.create_task(_stream(session, ws, source_factory))
+                try:
+                    done, _ = await asyncio.wait(
+                        {receiver, producer}, return_when=asyncio.FIRST_COMPLETED
+                    )
+                    for job in done:
+                        result_error = job.exception()
+                        if result_error:
+                            raise result_error
+                    if receiver in done and not producer.done():
+                        raise RuntimeError("Palabra stream closed during source capture.")
+                    if producer in done and not receiver.done():
+                        # After end_task, wait for pending final text and audio.
+                        await asyncio.wait_for(receiver, timeout=180)
+                finally:
+                    for job in (receiver, producer):
+                        if not job.done():
+                            job.cancel()
+                    await asyncio.gather(receiver, producer, return_exceptions=True)
         except asyncio.CancelledError:
             gateway.set_state(session.session_id, "stopped")
             raise
