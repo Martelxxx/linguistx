@@ -6,7 +6,7 @@ from starlette.testclient import TestClient
 
 from gateway_stage2.core import (
     AuditJournal, Gateway, LanguageFanout, ScopedGuests,
-    Session, load_config, task_message,
+    Session, load_config, task_message, LANGUAGES, PALABRA_VOICE_ID,
 )
 from gateway_stage2.app import make_app
 
@@ -178,3 +178,20 @@ def test_provider_errors_do_not_fake_success():
         gate.handle_provider("s1", {"message_type": "error", "data": {"code": "INVALID"}})
     gate.set_state("s1", "degraded", reason="translation_connection_lost")
     assert gate.states["s1"] == "degraded"
+
+
+def test_stage2_same_custom_voice_is_used_for_all_twenty_languages():
+    assert PALABRA_VOICE_ID == "44948595-c29b-4fb6-839a-77b9884d0cb8"
+    assert len(LANGUAGES) == 20
+    outputs = [
+        {"channel_id": f"out{i:02d}", "language": code}
+        for i, code in enumerate(sorted(LANGUAGES))
+    ]
+    session = Session.from_dict(source_config(outputs=outputs))
+    translations = task_message(session)["data"]["pipeline"]["translations"]
+    assert {t["target_language"] for t in translations} == LANGUAGES
+    for translation in translations:
+        assert translation["speech_generation"] == {
+            "voice_id": PALABRA_VOICE_ID,
+            "voice_cloning": False,
+        }
