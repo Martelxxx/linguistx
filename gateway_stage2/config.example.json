@@ -1,0 +1,28 @@
+{
+  "sessions": [
+    {
+      "session_id": "airport-iad-zone-A23",
+      "source_id": "aes67-input-01",
+      "source_language": "en",
+      "tenant_id": "demo-tenant",
+      "site_id": "IAD",
+      "zone_id": "A23",
+      "flight_code": "EK232",
+      "source": "alsa:hw:1,0",
+      "outputs": [
+        {
+          "channel_id": "aes67-out-01",
+          "language": "fr"
+        },
+        {
+          "channel_id": "aes67-out-02",
+          "language": "es"
+        },
+        {
+          "channel_id": "aes67-out-03",
+          "language": "de"
+        }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ from urllib.error import HTTPError, URLError
 from shared_guest_store import redis_session_stores
 
 VALID_STATES={'connected','reconnecting','unavailable','ended'}
-LANGS={'en','fr','es','zh','ar','pt'}
+LANGS={'en','fr','es','zh','ar','pt','de','it','ja','ko','hi','ru','tr','nl','pl','vi','id','uk','sv','th'}
 
 def _env_val(name):
     """Read a gateway setting from process environment or the current local .env only; production never falls back to a file lookup here."""
