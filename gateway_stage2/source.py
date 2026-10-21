@@ -22,6 +22,7 @@ class PcmSource:
         self.process = None
         self.stream = None
         self.file_mode = spec.startswith("file:")
+        self.aes67_mode = spec.startswith("aes67:")
 
     async def __aenter__(self):
         if self.file_mode:
@@ -33,16 +34,27 @@ class PcmSource:
                 raise FileNotFoundError("Configured PCM fixture file is missing.")
             self.stream = await asyncio.to_thread(path.open, "rb")
         else:
-            device = self.spec[5:]
-            if not ALSA_DEVICE.fullmatch(device):
-                raise ValueError("Invalid ALSA capture device.")
-            # Audio leaving ffmpeg is 24 kHz signed 16-bit mono raw PCM.
-            # Card-side AES67 receiver routing and PTP remain integration gates.
+            if self.aes67_mode:
+                from .aes67 import gst_receiver_command, read_sdp
+
+                # Commissioned local SDP is the only authority for multicast settings.
+                # GStreamer does RTP depayload, jitter handling and rate conversion.
+                command = gst_receiver_command(
+                    read_sdp(self.spec[6:]),
+                    interface=os.environ.get("LX_AES67_INTERFACE", ""),
+                )
+            else:
+                device = self.spec[5:]
+                if not ALSA_DEVICE.fullmatch(device):
+                    raise ValueError("Invalid ALSA capture device.")
+                command = [
+                    "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error",
+                    "-f", "alsa", "-i", device,
+                    "-ac", "1", "-ar", "24000", "-f", "s16le", "pipe:1",
+                ]
             self.process = await asyncio.create_subprocess_exec(
-                "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error",
-                "-f", "alsa", "-i", device,
-                "-ac", "1", "-ar", "24000", "-f", "s16le", "pipe:1",
-                stdin=asyncio.subprocess.DEVNULL, stdout=asyncio.subprocess.PIPE,
+                *command, stdin=asyncio.subprocess.DEVNULL,
+                stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.DEVNULL,
             )
         return self
@@ -80,7 +92,7 @@ class PcmSource:
             # ALSA/ffmpeg output is itself captured at real-time speed.
             return await self.process.stdout.readexactly(FRAME_BYTES)
         except asyncio.IncompleteReadError:
-            raise RuntimeError("ALSA input stream ended or lost signal.") from None
+            raise RuntimeError("Configured audio input ended or lost signal.") from None
 
 
 def source_factory(spec: str) -> PcmSource:
