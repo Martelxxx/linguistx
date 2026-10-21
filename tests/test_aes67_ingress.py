@@ -3,8 +3,6 @@
 All tests use synthetic SDP and mocked subprocesses, not real Q-SYS hardware.
 """
 import asyncio
-import json
-from types import SimpleNamespace
 
 import pytest
 
@@ -104,3 +102,30 @@ def test_source_factory_is_native_gateway_compatible(tmp_path, monkeypatch):
 def test_missing_sdp_fails_closed(tmp_path):
     with pytest.raises(ValueError):
         read_sdp(str(tmp_path / "not-found.sdp"))
+
+def test_authenticated_ingress_inventory_is_not_false_positive(tmp_path):
+    from starlette.testclient import TestClient
+    from gateway_stage2.app import make_app
+
+    file = tmp_path / "pa.sdp"
+    file.write_text(SDP)
+    session = Session.from_dict({
+        "session_id": "s1", "source_id": "qsys-c", "source_language": "en",
+        "tenant_id": "demo", "site_id": "EWR", "zone_id": "C", "flight_code": "",
+        "source": f"aes67:{file}",
+        "outputs": [{"channel_id": "out-fr", "language": "fr"}],
+    })
+    app = make_app([session], "x" * 40, run=False)
+    with TestClient(app) as client:
+        assert client.get("/v1/ingress/sources").status_code == 401
+        response = client.get("/v1/ingress/sources", headers={
+            "Authorization": "Bearer " + "x" * 40,
+        })
+        assert response.status_code == 200
+        body = response.json()
+        assert body["media_telemetry_available"] is False
+        source = body["sources"][0]
+        assert source["source_kind"] == "aes67"
+        assert source["configured_stream"]["encoding"] == "L24"
+        assert source["audio_receipt_verified"] is False
+        assert source["configuration_valid"] is True
