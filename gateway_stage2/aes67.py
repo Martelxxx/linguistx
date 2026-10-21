@@ -122,3 +122,22 @@ def gst_receiver_command(stream: Aes67Stream, interface: str = "", executable: s
         "audio/x-raw,format=(string)S16LE,rate=(int)24000,channels=(int)1", "!",
         "fdsink", "fd=1", "sync=false",
     ]
+
+def make_commissioned_sdp(multicast: str, port: int, payload: int, encoding: str) -> str:
+    """Build a canonical single-channel SDP, using only validated settings."""
+    if not isinstance(multicast, str) or not isinstance(port, int) or not isinstance(payload, int):
+        raise ValueError("Invalid AES67 settings.")
+    if encoding not in ("L16", "L24"):
+        raise ValueError("Expected L16 or L24 PCM.")
+    candidate = (
+        "v=0\n"
+        "o=- 1 1 IN IP4 127.0.0.1\n"
+        "s=Linguist-X commissioned mono stream\n"
+        f"c=IN IP4 {multicast}/32\n"
+        "t=0 0\n"
+        f"m=audio {port} RTP/AVP {payload}\n"
+        f"a=rtpmap:{payload} {encoding}/48000/1\n"
+        "a=ptime:1\n"
+    )
+    parse_sdp(candidate)
+    return candidate
