@@ -9,17 +9,18 @@ import asyncio
 import hmac
 import json
 import os
+import secrets
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import JSONResponse, StreamingResponse
+from starlette.responses import HTMLResponse, JSONResponse, StreamingResponse
 from starlette.routing import Route
 
 from .core import AuditJournal, Gateway, load_config, run_session
 from .source import source_factory
-from .aes67 import read_sdp
+from .aes67 import make_commissioned_sdp, read_sdp
 
 NO_STORE = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
 
@@ -107,6 +108,16 @@ def make_app(sessions, admin_token: str, api_key: str = "",
             "productionCertified": False,
         })
 
+    async def super_admin_audio(request: Request):
+        """Shared AES67 administration module, to be mounted in the full Super Admin."""
+        html_path = Path(__file__).with_name("super_admin_audio.html")
+        return HTMLResponse(html_path.read_text(encoding="utf-8"), headers={
+            **NO_STORE,
+            "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; "
+                                       "script-src 'unsafe-inline'; connect-src 'self'; "
+                                       "base-uri 'none'; form-action 'none'",
+        })
+
     async def ingress_sources(request: Request):
         """Admin-only configured input inventory, NOT a media connection proof."""
         if not authorized(request):
@@ -121,6 +132,15 @@ def make_app(sessions, admin_token: str, api_key: str = "",
                 ),
                 "provider_session": gateway.states[session.session_id],
                 "audio_receipt_verified": False,
+                "admin_edit_enabled": (os.environ.get("LX_AES67_ADMIN_EDIT") == "1"
+                                       and bool(os.environ.get("LX_AES67_SDP_DIR"))),
+                "telemetry": (gateway.input_monitors[session.session_id].telemetry()
+                              if session.session_id in gateway.input_monitors else {
+                                  "pcm_bytes_received": 0,
+                                  "signal_dbfs": None,
+                                  "signal_age_ms": None,
+                                  "ingress_producing_pcm": False,
+                              }),
             }
             if session.source.startswith("aes67:"):
                 try:
@@ -128,6 +148,7 @@ def make_app(sessions, admin_token: str, api_key: str = "",
                     item["configured_stream"] = {
                         "multicast": stream.multicast,
                         "port": stream.port,
+                        "payload_type": stream.payload_type,
                         "encoding": stream.encoding,
                         "rate": stream.rate,
                         "channels": stream.channels,
@@ -136,7 +157,49 @@ def make_app(sessions, admin_token: str, api_key: str = "",
                 except (OSError, ValueError, UnicodeError):
                     item["configuration_valid"] = False
             items.append(item)
-        return response(200, {"sources": items, "media_telemetry_available": False})
+        return response(200, {"sources": items,
+                              "media_telemetry_available": bool(gateway.input_monitors)})
+
+    async def update_ingress_config(request: Request):
+        """Locally commissioned stream settings; staging requires a controlled restart."""
+        if not authorized(request):
+            return response(401, {"error": "Unauthorized."})
+        if (os.environ.get("LX_AES67_ADMIN_EDIT") != "1"
+                or not os.environ.get("LX_AES67_SDP_DIR")):
+            return response(403, {"error": "Audio configuration editing is disabled."})
+        if not request.client or request.client.host not in ("127.0.0.1", "::1"):
+            return response(403, {"error": "Change the stream on the local appliance."})
+        try:
+            changes = await body_json(request)
+            session = gateway.sessions.get(changes.get("session_id"))
+            if session is None or not session.source.startswith("aes67:"):
+                return response(404, {"error": "Configured AES67 source not found."})
+            content = make_commissioned_sdp(
+                changes.get("multicast"), changes.get("port"),
+                changes.get("payload_type"), changes.get("encoding"),
+            )
+            root = Path(os.environ["LX_AES67_SDP_DIR"]).resolve(strict=True)
+            destination = Path(session.source[6:])
+            if destination.is_symlink() or not destination.is_file():
+                raise ValueError("Commissioned SDP target must be a regular file.")
+            destination = destination.resolve(strict=True)
+            if not destination.is_relative_to(root):
+                raise ValueError("Configured SDP is outside the authorized directory.")
+            temp = destination.with_name(destination.name + "." + secrets.token_hex(8) + ".tmp")
+            descriptor = os.open(str(temp), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            try:
+                with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+                    handle.write(content)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(temp, destination)
+            finally:
+                if temp.exists():
+                    temp.unlink()
+        except (KeyError, ValueError, TypeError, OSError, json.JSONDecodeError):
+            return response(400, {"error": "Invalid or unwritable commissioned stream settings."})
+        return response(200, {"saved": True, "restart_required": True,
+                              "session_id": session.session_id})
 
     async def sessions_list(request: Request):
         if not authorized(request):
@@ -224,7 +287,9 @@ def make_app(sessions, admin_token: str, api_key: str = "",
         Route("/healthz", health, methods=["GET"]),
         Route("/readyz", ready, methods=["GET"]),
         Route("/v1/capabilities", capabilities, methods=["GET"]),
+        Route("/super-admin/audio-inputs", super_admin_audio, methods=["GET"]),
         Route("/v1/ingress/sources", ingress_sources, methods=["GET"]),
+        Route("/v1/ingress/config", update_ingress_config, methods=["PUT"]),
         Route("/v1/sessions", sessions_list, methods=["GET"]),
         Route("/v1/guest/join", guest_join, methods=["POST"]),
         Route("/v1/guest/state", guest_state, methods=["GET"]),
