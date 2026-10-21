@@ -1,0 +1,24 @@
+{
+  "sessions": [
+    {
+      "session_id": "ewr-terminal-c-pa",
+      "source_id": "qsys-ewr-c-tx",
+      "source_language": "en",
+      "tenant_id": "demo-tenant",
+      "site_id": "EWR",
+      "zone_id": "TerminalC",
+      "flight_code": "",
+      "source": "aes67:/etc/linguistx/streams/ewr-c-pa.sdp",
+      "outputs": [
+        {
+          "channel_id": "ewr-c-fr",
+          "language": "fr"
+        },
+        {
+          "channel_id": "ewr-c-es",
+          "language": "es"
+        }
+      ]
+    }
+  ]
+}
