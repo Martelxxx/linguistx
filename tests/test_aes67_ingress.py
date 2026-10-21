@@ -6,7 +6,7 @@ import asyncio
 
 import pytest
 
-from gateway_stage2.aes67 import gst_receiver_command, parse_sdp, read_sdp
+from gateway_stage2.aes67 import gst_receiver_command, make_commissioned_sdp, parse_sdp, read_sdp
 from gateway_stage2.core import Session
 from gateway_stage2.source import PcmSource, source_factory
 
@@ -129,3 +129,42 @@ def test_authenticated_ingress_inventory_is_not_false_positive(tmp_path):
         assert source["configured_stream"]["encoding"] == "L24"
         assert source["audio_receipt_verified"] is False
         assert source["configuration_valid"] is True
+
+def test_same_source_supports_native_gstreamer_binary_paths():
+    stream = parse_sdp(SDP)
+    assert gst_receiver_command(stream, executable="C:\\\\gstreamer\\\\bin\\\\gst-launch-1.0.exe")[0].endswith(".exe")
+    assert gst_receiver_command(stream, executable="/opt/homebrew/bin/gst-launch-1.0")[0].startswith("/opt")
+    with pytest.raises(ValueError, match="executable"):
+        gst_receiver_command(stream, executable="bash")
+
+
+def test_config_editor_generates_a_valid_roundtrip_sdp():
+    stream = parse_sdp(make_commissioned_sdp("239.69.10.21", 5004, 96, "L24"))
+    assert stream.multicast == "239.69.10.21"
+    assert stream.encoding == "L24"
+    with pytest.raises(ValueError):
+        make_commissioned_sdp("127.0.0.1", 5004, 96, "L24")
+
+
+def test_shared_super_admin_page_and_safe_edit_default(tmp_path):
+    from starlette.testclient import TestClient
+    from gateway_stage2.app import make_app
+
+    file = tmp_path / "pa.sdp"
+    file.write_text(SDP)
+    session = Session.from_dict({
+        "session_id": "s1", "source_id": "qsys-c", "source_language": "en",
+        "tenant_id": "demo", "site_id": "EWR", "zone_id": "C", "flight_code": "",
+        "source": f"aes67:{file}",
+        "outputs": [{"channel_id": "out-fr", "language": "fr"}],
+    })
+    app = make_app([session], "x" * 40, run=False)
+    with TestClient(app) as client:
+        page = client.get("/super-admin/audio-inputs")
+        assert page.status_code == 200
+        assert "Q-SYS / AES67 Audio Inputs" in page.text
+        headers = {"Authorization": "Bearer " + "x" * 40}
+        assert client.put("/v1/ingress/config", headers=headers, json={
+            "session_id":"s1","multicast":"239.69.10.22","port":5004,
+            "payload_type":96,"encoding":"L24",
+        }).status_code == 403
