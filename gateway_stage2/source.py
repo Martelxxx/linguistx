@@ -1,7 +1,7 @@
 """Controlled audio ingress. Capture is isolated from translation and passenger APIs.
 
-ALSA adapter is a commissioning candidate, not certification of Digigram's
-AES67 routing, PTP, SMPTE ST 2022-7 or output transmit functions.
+ALSA and GStreamer AES67 receive adapters are commissioning candidates, not
+certification of network clocking, Digigram hardware or output transmission.
 """
 from __future__ import annotations
 
