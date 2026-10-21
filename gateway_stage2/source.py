@@ -12,7 +12,6 @@ import sys
 import time
 from array import array
 import re
-import time
 from pathlib import Path
 
 from .core import FRAME_BYTES
