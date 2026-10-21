@@ -1,4 +1,4 @@
-"""Candidate AES67 RTP/PCM input for the Linux Linguist-X gateway.
+"""Candidate cross-platform AES67 RTP/PCM input for the Linguist-X gateway.
 
 Only Q-SYS-compatible single-channel IPv4 multicast L16/L24 streams are
 supported. A validated local SDP file provides the stream settings. This is
@@ -93,10 +93,16 @@ def read_sdp(path: str) -> Aes67Stream:
     return parse_sdp(file.read_text(encoding="utf-8"))
 
 
-def gst_receiver_command(stream: Aes67Stream, interface: str = "") -> list[str]:
+def gst_receiver_command(stream: Aes67Stream, interface: str = "", executable: str = "gst-launch-1.0") -> list[str]:
     """Safe argv for GStreamer: RTP depayload + jitter buffer -> 24 kHz PCM16."""
     if interface and not IFACE.fullmatch(interface):
         raise ValueError("Invalid multicast network-interface name.")
+    # Permit only the known GStreamer CLI, optionally with an absolute install path.
+    binary_name = Path(executable).name.lower()
+    if binary_name not in {"gst-launch-1.0", "gst-launch-1.0.exe"} or any(
+        mark in executable for mark in ("\n", "\r", "\x00")
+    ):
+        raise ValueError("Expected gst-launch-1.0 executable.")
     caps = (
         "application/x-rtp,media=(string)audio,"
         f"clock-rate=(int){stream.rate},encoding-name=(string){stream.encoding},"
@@ -109,7 +115,7 @@ def gst_receiver_command(stream: Aes67Stream, interface: str = "") -> list[str]:
         source.append(f"multicast-iface={interface}")
     source.append(f"caps={caps}")
     return [
-        "gst-launch-1.0", "-q", *source, "!",
+        executable, "-q", *source, "!",
         "rtpjitterbuffer", "latency=80", "drop-on-latency=true", "!",
         "rtpL24depay" if stream.encoding == "L24" else "rtpL16depay", "!",
         "audioconvert", "!", "audioresample", "!",
