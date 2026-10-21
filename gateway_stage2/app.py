@@ -19,6 +19,7 @@ from starlette.routing import Route
 
 from .core import AuditJournal, Gateway, load_config, run_session
 from .source import source_factory
+from .aes67 import read_sdp
 
 NO_STORE = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"}
 
@@ -106,6 +107,37 @@ def make_app(sessions, admin_token: str, api_key: str = "",
             "productionCertified": False,
         })
 
+    async def ingress_sources(request: Request):
+        """Admin-only configured input inventory, NOT a media connection proof."""
+        if not authorized(request):
+            return response(401, {"error": "Unauthorized."})
+        items = []
+        for session in sessions:
+            item = {
+                "session_id": session.session_id,
+                "source_id": session.source_id,
+                "source_kind": "aes67" if session.source.startswith("aes67:") else (
+                    "alsa" if session.source.startswith("alsa:") else "fixture"
+                ),
+                "provider_session": gateway.states[session.session_id],
+                "audio_receipt_verified": False,
+            }
+            if session.source.startswith("aes67:"):
+                try:
+                    stream = read_sdp(session.source[6:])
+                    item["configured_stream"] = {
+                        "multicast": stream.multicast,
+                        "port": stream.port,
+                        "encoding": stream.encoding,
+                        "rate": stream.rate,
+                        "channels": stream.channels,
+                    }
+                    item["configuration_valid"] = True
+                except (OSError, ValueError, UnicodeError):
+                    item["configuration_valid"] = False
+            items.append(item)
+        return response(200, {"sources": items, "media_telemetry_available": False})
+
     async def sessions_list(request: Request):
         if not authorized(request):
             return response(401, {"error": "Unauthorized."})
@@ -192,6 +224,7 @@ def make_app(sessions, admin_token: str, api_key: str = "",
         Route("/healthz", health, methods=["GET"]),
         Route("/readyz", ready, methods=["GET"]),
         Route("/v1/capabilities", capabilities, methods=["GET"]),
+        Route("/v1/ingress/sources", ingress_sources, methods=["GET"]),
         Route("/v1/sessions", sessions_list, methods=["GET"]),
         Route("/v1/guest/join", guest_join, methods=["POST"]),
         Route("/v1/guest/state", guest_state, methods=["GET"]),
