@@ -247,6 +247,7 @@ class Gateway:
         self._seen: dict[str, deque[str]] = defaultdict(lambda: deque(maxlen=4096))
         self._connect_times: deque[float] = deque()
         self._connect_lock = asyncio.Lock()
+        self.input_monitors: dict[str, object] = {}
 
     async def limit_provider_connect(self) -> None:
         """Stay below documented 20 Palabra WS connects per token per minute."""
@@ -370,7 +371,12 @@ async def run_session(gateway: Gateway, session: Session, api_key: str, source_f
                 gateway.set_state(session.session_id, "active")
                 backoff = 1
                 receiver = asyncio.create_task(_receive(gateway, session, ws))
-                producer = asyncio.create_task(_stream(session, ws, source_factory))
+                def monitored_source(spec):
+                    audio_source = source_factory(spec)
+                    gateway.input_monitors[session.session_id] = audio_source
+                    return audio_source
+
+                producer = asyncio.create_task(_stream(session, ws, monitored_source))
                 try:
                     done, _ = await asyncio.wait(
                         {receiver, producer}, return_when=asyncio.FIRST_COMPLETED
