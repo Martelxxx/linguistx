@@ -6,7 +6,11 @@ certification of network clocking, Digigram hardware or output transmission.
 from __future__ import annotations
 
 import asyncio
+import math
 import os
+import sys
+import time
+from array import array
 import re
 import time
 from pathlib import Path
@@ -23,6 +27,9 @@ class PcmSource:
         self.stream = None
         self.file_mode = spec.startswith("file:")
         self.aes67_mode = spec.startswith("aes67:")
+        self.pcm_bytes_received = 0
+        self.last_pcm_at = None
+        self.signal_dbfs = None
 
     async def __aenter__(self):
         if self.file_mode:
@@ -72,6 +79,30 @@ class PcmSource:
                 await self.process.wait()
             self.process = None
 
+    def _record_audio(self, block: bytes) -> bytes:
+        """Telemetry of decoded PCM; never retain or disclose raw audio."""
+        self.pcm_bytes_received += len(block)
+        self.last_pcm_at = time.monotonic()
+        samples = array("h")
+        samples.frombytes(block)
+        if sys.byteorder != "little":
+            samples.byteswap()
+        sparse = samples[::16]
+        if sparse:
+            mean_square = sum(value * value for value in sparse) / len(sparse)
+            rms = math.sqrt(mean_square) / 32768
+            self.signal_dbfs = round(20 * math.log10(max(rms, 1e-8)), 1)
+        return block
+
+    def telemetry(self) -> dict:
+        age = (time.monotonic() - self.last_pcm_at) if self.last_pcm_at is not None else None
+        return {
+            "pcm_bytes_received": self.pcm_bytes_received,
+            "signal_dbfs": self.signal_dbfs if age is not None and age < 3 else None,
+            "signal_age_ms": round(age * 1000) if age is not None else None,
+            "ingress_producing_pcm": bool(age is not None and age < 3),
+        }
+
     def __aiter__(self):
         return self
 
@@ -85,12 +116,12 @@ class PcmSource:
                 block += bytes(FRAME_BYTES - len(block))
             # A recorded file must be paced to real time for Palabra.
             await asyncio.sleep(max(0, 0.32 - (time.monotonic() - started)))
-            return block
+            return self._record_audio(block)
         if self.process is None or self.process.stdout is None:
             raise StopAsyncIteration
         try:
             # ALSA/ffmpeg output is itself captured at real-time speed.
-            return await self.process.stdout.readexactly(FRAME_BYTES)
+            return self._record_audio(await self.process.stdout.readexactly(FRAME_BYTES))
         except asyncio.IncompleteReadError:
             raise RuntimeError("Configured audio input ended or lost signal.") from None
 
