@@ -49,6 +49,7 @@ class PcmSource:
                 command = gst_receiver_command(
                     read_sdp(self.spec[6:]),
                     interface=os.environ.get("LX_AES67_INTERFACE", ""),
+                    executable=os.environ.get("LX_GSTREAMER_BIN", "gst-launch-1.0"),
                 )
             else:
                 device = self.spec[5:]
