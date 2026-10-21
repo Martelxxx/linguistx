@@ -98,7 +98,7 @@ def gst_receiver_command(stream: Aes67Stream, interface: str = "", executable: s
     if interface and not IFACE.fullmatch(interface):
         raise ValueError("Invalid multicast network-interface name.")
     # Permit only the known GStreamer CLI, optionally with an absolute install path.
-    binary_name = Path(executable).name.lower()
+    binary_name = executable.replace("\\", "/").rsplit("/", 1)[-1].lower()
     if binary_name not in {"gst-launch-1.0", "gst-launch-1.0.exe"} or any(
         mark in executable for mark in ("\n", "\r", "\x00")
     ):
