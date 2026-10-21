@@ -78,8 +78,9 @@ class Session:
             raise ValueError("A source cannot assign the same language twice.")
         if len({out.channel_id for out in item.outputs}) != len(item.outputs):
             raise ValueError("Output channel IDs must be unique.")
-        if not (item.source.startswith("alsa:") or item.source.startswith("file:")):
-            raise ValueError("Only explicitly configured ALSA or file sources are supported.")
+        if not (item.source.startswith("alsa:") or item.source.startswith("file:")
+                or item.source.startswith("aes67:")):
+            raise ValueError("Only explicitly configured ALSA, AES67 SDP or file sources are supported.")
         if item.flight_code and not re.fullmatch(r"[A-Z0-9]{2,3}\d{1,4}", item.flight_code):
             raise ValueError("Invalid flight code.")
         return item
