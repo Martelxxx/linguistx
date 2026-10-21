@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linguist-X · Super Admin · Audio Inputs</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#162a37;background:#eef2f3}
+*{box-sizing:border-box}body{margin:0}header{background:#142d40;color:#fff;padding:22px 28px;display:flex;justify-content:space-between;gap:12px;align-items:center}header strong{font-size:22px;letter-spacing:-.5px}header small{color:#abc1ce}main{width:min(1040px,96%);margin:27px auto 60px}.sub{color:#657b87;font-size:14px;margin:8px 0 25px}
+.card{background:white;border:1px solid #d8e1e5;border-radius:17px;padding:23px;margin:16px 0;box-shadow:0 4px 20px #1335490b}.card h2{font-size:18px;margin:0 0 12px}
+.pill{font-size:12px;color:#4b5960;border-radius:30px;background:#e8edf0;padding:6px 10px;white-space:nowrap}
+button{cursor:pointer;background:#1679a7;color:white;border:0;border-radius:8px;padding:11px 15px;font-weight:700}button:disabled{opacity:.4;cursor:not-allowed}button.ghost{background:#e8eef1;color:#153348}button.secondary{background:#355165}
+label{display:grid;gap:6px;color:#46606d;font-size:12px;font-weight:700}input,select{padding:11px 12px;border:1px solid #bdccd3;border-radius:7px;font-size:14px;background:white;max-width:100%;width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.caption{font-size:12px;color:#6b7a81;line-height:1.65}.state{font-size:13px;font-weight:700}.state.ok{color:#168256}.state.warn{color:#a36d26}
+.meter{height:12px;background:#e1e9ec;border-radius:100px;overflow:hidden;margin:12px 0}.fill{height:100%;background:linear-gradient(90deg,#3ca1bd,#2cbe9b);width:0%;transition:width .15s ease}
+#notice{white-space:pre-wrap}#editor[hidden],#sources[hidden],#no-source[hidden]{display:none}
+@media(max-width:580px){header{padding:18px}main{width:94%}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header><div><strong>Linguist-X</strong><div><small>Super Administrator / Audio Inputs</small></div></div><span class="pill">Shared gateway module · laboratory build</span></header>
+<main>
+<h1>Q-SYS / AES67 Audio Inputs</h1>
+<p class="sub">Configure a network audio stream, check actual decoded-audio activity, and manage the receiver used by all three operating-system editions. Configuration is not proof of connectivity.</p>
+<section class="card">
+<div class="row"><h2>Secure gateway connection</h2><span id="authState" class="state warn">Not connected</span></div>
+<div class="grid"><label>Gateway administrator token<input type="password" id="token" autocomplete="off" placeholder="Enter local LX_GATEWAY_TOKEN"></label><label>Actions<span><button id="connect" type="button">Connect &amp; load inputs</button></span></label></div>
+<p class="caption">The token stays in this page's memory only. Never copy it into an airport network configuration or a public demonstration.</p>
+</section>
+<section id="sources" class="card" hidden>
+<div class="row"><h2>Input inventory</h2><button id="refresh" class="ghost" type="button">Refresh status</button></div>
+<div class="grid"><label>Configured source<select id="selector"></select></label><div><div class="caption">Translation session</div><strong id="provider">Unknown</strong></div><div><div class="caption">Audio transport</div><strong id="transport">Unknown</strong></div></div>
+<div style="margin-top:20px"><div class="row"><strong>Incoming decoded audio level</strong><span id="level" class="state">No measured PCM audio</span></div><div class="meter"><div id="fill" class="fill"></div></div>
+<div class="caption" id="details">No verified signal. The gateway only shows a meter after its receiver has actually produced PCM frames.</div></div>
+</section>
+<section id="no-source" class="card" hidden><h2>No AES67 input configured</h2><p class="caption">Add an AES67 source entry to the gateway session configuration. See the cross-platform setup instructions.</p></section>
+<section class="card" id="editor" hidden>
+<div class="row"><h2>Q-SYS multicast stream settings</h2><span id="editMode" class="pill">Read-only until explicitly enabled</span></div>
+<div class="grid">
+<label>Multicast address<input id="address" placeholder="239.x.x.x"></label>
+<label>RTP UDP port<input id="port" type="number" min="1024" max="65535"></label>
+<label>Encoding<select id="encoding"><option>L24</option><option>L16</option></select></label>
+<label>Payload type<input id="payload" type="number" min="96" max="127"></label>
+</div>
+<p class="caption">Single-channel 48 kHz RTP only in this candidate. Use Q-SYS transmitter's actual settings, not example addresses. Settings changes require a controlled gateway restart.</p>
+<button id="save" type="button" disabled>Save stream configuration</button>
+<p id="notice" class="caption" role="status"></p>
+</section>
+<section class="card"><h2>Compatibility and release status</h2><p class="caption">The same AES67 GStreamer-backed Python receiver runs on Windows, macOS and Linux when the matching system tools and network configuration are installed. This is currently a receive-only lab integration. Q-SYS hardware, PTP synchronization, full Super Admin role integration, and live passenger audio delivery require acceptance testing.</p></section>
+</main>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+let token = '', sources = [];
+const request = async (route, opts={}) => {
+  const response = await fetch(route, { ...opts, headers:{'Authorization':'Bearer '+token, 'Content-Type':'application/json', ...(opts.headers||{})}, cache:'no-store'});
+  let data={}; try {data=await response.json()}catch{}
+  if(!response.ok)throw Error(data.error||('HTTP '+response.status));
+  return data;
+};
+const selected = () => sources.find(s=>s.session_id === $('selector').value);
+const show = () => {
+const s=selected(); if(!s)return;
+$('provider').textContent=s.provider_session||'Unknown';
+$('transport').textContent=s.source_kind||'Unknown';
+const m=s.telemetry||{};
+const active=m.ingress_producing_pcm===true;
+$('level').textContent=active && Number.isFinite(m.signal_dbfs)?m.signal_dbfs.toFixed(1)+' dBFS':'No recent audio';
+$('level').className='state '+(active?'ok':'warn');
+$('fill').style.width=active?Math.max(1,Math.min(100,(m.signal_dbfs+80)*1.25))+'%':'0%';
+$('details').textContent=(active?'PCM frames received':'No recent frames received')+' · '+(m.pcm_bytes_received||0)+' decoded bytes · Signal is not proof of Q-SYS synchronization';
+$('editor').hidden=s.source_kind!=='aes67';
+if(s.configured_stream){
+ const f=s.configured_stream;
+ $('address').value=f.multicast||'';$('port').value=f.port||5004;$('encoding').value=f.encoding||'L24';$('payload').value=f.payload_type||96;
+}
+$('editMode').textContent=s.admin_edit_enabled?'Local configuration editing enabled':'Read-only (editing disabled)';
+$('save').disabled=!s.admin_edit_enabled;
+};
+const reload = async () => {
+ const r=await request('/v1/ingress/sources');
+ const was=$('selector').value;
+ sources=r.sources||[];$('selector').replaceChildren();
+ for(const s of sources){const o=document.createElement('option');o.value=s.session_id;o.textContent=s.source_id+' · '+s.session_id;$('selector').appendChild(o)}
+ if(sources.some(s=>s.session_id===was))$('selector').value=was;
+ $('sources').hidden=sources.length===0;$('no-source').hidden=sources.length!==0;
+ $('authState').textContent='Connected';$('authState').className='state ok';
+ if(sources.length)show();
+};
+$('connect').addEventListener('click', async ()=>{
+ token=$('token').value;$('token').value='';
+ try{await reload()}catch(e){$('authState').textContent=e.message;$('authState').className='state warn'}
+});
+$('refresh').addEventListener('click',()=>reload().catch(e=>$('details').textContent=e.message));
+$('selector').addEventListener('change',show);
+$('save').addEventListener('click',async()=>{
+ const s=selected();if(!s)return;
+ const body={session_id:s.session_id,multicast:$('address').value.trim(),port:Number($('port').value),payload_type:Number($('payload').value),encoding:$('encoding').value};
+ try{const r=await request('/v1/ingress/config',{method:'PUT',body:JSON.stringify(body)});$('notice').textContent='Configuration saved. Restart gateway service for the change to take effect.';await reload()}
+ catch(e){$('notice').textContent='Could not save: '+e.message}
+});
+setInterval(()=>{if(token)reload().catch(()=>{$('authState').textContent='Connection unavailable';$('authState').className='state warn'})},2500);
+})();
+</script>
+</body></html>
