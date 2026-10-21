@@ -1,0 +1,27 @@
+name: Linguist-X AES67 three-OS parity
+on:
+  pull_request:
+    paths:
+      - "gateway_stage2/**"
+      - "tests/test_aes67_ingress.py"
+      - "platform/**"
+      - ".github/workflows/aes67-three-os-parity.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Python dependencies
+        run: python -m pip install -r gateway_stage2/requirements.txt pytest httpx
+      - name: Run portable AES67 and gateway tests
+        run: python -m pytest -q tests/test_aes67_ingress.py tests/test_stage2_gateway.py
